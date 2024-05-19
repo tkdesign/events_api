@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\TimeCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 /*
@@ -65,8 +66,8 @@ class Slot extends Model
 
     protected $casts = [
         'day' => 'date',
-        'start_time' => 'time',
-        'end_time' => 'time',
+        'start_time' => TimeCast::class,
+        'end_time' => TimeCast::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

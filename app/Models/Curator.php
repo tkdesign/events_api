@@ -53,11 +53,4 @@ class Curator extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
-
-    public function events()
-    {
-        return $this->belongsToMany(Event::class, 'events_has_curators', 'curator_id', 'event_id')
-            ->withPivot('visible', 'position')
-            ->withTimestamps();
-    }
 }
