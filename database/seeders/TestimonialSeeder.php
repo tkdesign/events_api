@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Event;
 use App\Models\Testimonial;
+use Database\Factories\TestimonialFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 
@@ -15,7 +16,7 @@ class TestimonialSeeder extends Seeder
     public function run(): void
     {
         //
-        $testimonials = [
+/*        $testimonials = [
             [
                 'desc' => 'This is the best event i had ever joined. Most exiting this is speakers are so exprienced & helpfull. Also the decoretion was also very good. In one word \'Just Awesome\'',
                 'rating' => '5',
@@ -86,21 +87,23 @@ class TestimonialSeeder extends Seeder
                 'thumbnail' => '../src/assets/images/testimonial/thumbs/10.jpg',
                 'user_id' => '11',
             ]
-        ];
+        ];*/
 
         Schema::disableForeignKeyConstraints();
         Testimonial::truncate();
 
-        $event = Event::where('is_current', true)->first();
-        if ($event) {
-            $i = 1;
-            foreach ($testimonials as $testimonial) {
-                $testimonial['event_id'] = $event->event_id;
-                $testimonial['visible'] = 1;
-                $testimonial['position'] = $i++;
-                Testimonial::create($testimonial);
-            }
-        }
+//        $event = Event::where('is_current', true)->first();
+//        if ($event) {
+//            $i = 1;
+//            foreach ($testimonials as $testimonial) {
+//                $testimonial['event_id'] = $event->event_id;
+//                $testimonial['visible'] = 1;
+//                $testimonial['position'] = $i++;
+//                Testimonial::create($testimonial);
+//            }
+//        }
+
+        TestimonialFactory::times(15)->create();
 
         Schema::enableForeignKeyConstraints();
     }
