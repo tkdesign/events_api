@@ -5,6 +5,7 @@ use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\TestimonialController;
@@ -35,3 +36,4 @@ Route::get('/get-speakers', [SpeakerController::class, 'getCurrentEventSpeakers'
 Route::get('/get-testimonials', [TestimonialController::class, 'getCurrentEventTestimonials']);
 Route::get('/get-galleries', [GalleryController::class, 'getMenuGalleries']);
 Route::get('/get-images/{id}', [GalleryController::class, 'getImagesByGalleryId']);
+Route::get('/get-schedule', [ScheduleController::class, 'getCurrentEventSchedule']);

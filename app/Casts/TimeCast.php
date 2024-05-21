@@ -25,6 +25,9 @@ class TimeCast implements CastsAttributes
      */
     public function set(Model $model, string $key, mixed $value, array $attributes): mixed
     {
+        if ($value instanceof Carbon) {
+            return $value->format('H:i:s');
+        }
         return Carbon::createFromFormat('H:i:s', $value)->format('H:i:s');
     }
 }

@@ -47,4 +47,8 @@ class Schedule extends Model
         'updated_at' => 'datetime',
     ];
 
+    public function stages() {
+        return $this->hasMany(Stage::class, 'schedule_id', 'schedule_id');
+    }
+
 }

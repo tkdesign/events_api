@@ -65,4 +65,14 @@ class Event extends Model
         'start_date' => 'date',
         'end_date' => 'date',
     ];
+
+    public function activeEvent()
+    {
+        return $this->where('is_current', true)->first();
+    }
+
+    public function schedule()
+    {
+        return $this->hasOne(Schedule::class, 'event_id', 'event_id')->where('is_current', true)->first();
+    }
 }

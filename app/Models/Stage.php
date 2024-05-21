@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 /*
 -- -----------------------------------------------------
 -- Table `events_backend_db`.`stages`
@@ -44,4 +45,9 @@ class Stage extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function slots($schedule_id)
+    {
+        return $this->hasMany(Slot::class, 'stage_id', 'stage_id')->where('schedule_id', $schedule_id);
+    }
 }

@@ -71,4 +71,9 @@ class Slot extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function lection()
+    {
+        return $this->belongsTo(Lection::class, 'lection_id', 'lection_id');
+    }
 }
