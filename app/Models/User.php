@@ -69,4 +69,11 @@ class User extends Authenticatable
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function lectures(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Lecture::class, 'lectures_has_users', 'user_id', 'lecture_id');
+    }
+
+
 }

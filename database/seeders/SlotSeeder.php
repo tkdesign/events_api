@@ -22,42 +22,42 @@ class SlotSeeder extends Seeder
                 'start_time' => '09:00:00',
                 'end_time' => '09:50:00',
                 'stage_id' => '1',
-                'lection_id' => '1'
+                'lecture_id' => '1'
             ],
             [
                 'day' => '2024-07-01',
                 'start_time' => '10:00:00',
                 'end_time' => '10:50:00',
                 'stage_id' => '1',
-                'lection_id' => '2'
+                'lecture_id' => '2'
             ],
             [
                 'day' => '2024-07-01',
                 'start_time' => '11:00:00',
                 'end_time' => '11:50:00',
                 'stage_id' => '1',
-                'lection_id' => '3'
+                'lecture_id' => '3'
             ],
             [
                 'day' => '2024-07-01',
                 'start_time' => '09:00:00',
                 'end_time' => '09:50:00',
                 'stage_id' => '2',
-                'lection_id' => '4'
+                'lecture_id' => '4'
             ],
             [
                 'day' => '2024-07-02',
                 'start_time' => '10:00:00',
                 'end_time' => '10:50:00',
                 'stage_id' => '2',
-                'lection_id' => '5'
+                'lecture_id' => '5'
             ],
             [
                 'day' => '2024-07-02',
                 'start_time' => '11:00:00',
                 'end_time' => '11:50:00',
                 'stage_id' => '2',
-                'lection_id' => '6'
+                'lecture_id' => '6'
             ]
         ];
 

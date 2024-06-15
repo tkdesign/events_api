@@ -55,18 +55,18 @@ class EventHasCurator extends Model
     ];
 
     protected $casts = [
-        'visible' => 'boolean',
+//        'visible' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
     public function event()
     {
-        return $this->belongsTo(Event::class, 'event_id', 'event_id');
+        return $this->hasOne(Event::class, 'event_id', 'event_id');
     }
 
     public function curator()
     {
-        return $this->belongsTo(Curator::class, 'curator_id', 'curator_id');
+        return $this->hasOne(Curator::class, 'curator_id', 'curator_id');
     }
 }

@@ -53,11 +53,11 @@ class Gallery extends Model
 
     public function images()
     {
-        return $this->hasMany(GalleryImage::class, 'gallery_id', 'gallery_id');
+        return $this->hasMany(Image::class, 'gallery_id', 'gallery_id');
     }
 
     public function event()
     {
-        return $this->belongsTo(Event::class, 'event_id', 'event_id');
+        return $this->hasOne(Event::class, 'event_id', 'event_id');
     }
 }

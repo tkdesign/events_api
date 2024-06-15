@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
+
 /*
 -- -----------------------------------------------------
 -- Table `events_backend_db`.`events`
@@ -75,4 +77,5 @@ class Event extends Model
     {
         return $this->hasOne(Schedule::class, 'event_id', 'event_id')->where('is_current', true)->first();
     }
+
 }

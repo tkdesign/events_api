@@ -52,8 +52,13 @@ class Article extends Model
         'updated_at' => 'datetime'
     ];
 
+//    public function menuItem()
+//    {
+//        return $this->belongsTo(MenuItem::class, 'menu_item_id', 'menu_item_id');
+//    }
+
     public function menuItem()
     {
-        return $this->belongsTo(MenuItem::class, 'menu_item_id', 'menu_item_id');
+        return $this->hasOne(MenuItem::class, 'menu_item_id', 'menu_item_id');
     }
 }

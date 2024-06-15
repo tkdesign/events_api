@@ -63,8 +63,18 @@ class Testimonial extends Model
     ];
 
     protected $casts = [
-        'visible' => 'boolean',
+//        'visible' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function event()
+    {
+        return $this->hasOne(Event::class, 'event_id', 'event_id');
+    }
 }

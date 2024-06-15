@@ -8,169 +8,6 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 
-/*
-{
-  "menu": [
-    {
-      "name": "home",
-      "title": "Home",
-      "page_title": "Home",
-      "alias": "/",
-      "component": "HomeView",
-      "visible": true
-    },
-    {
-      "name": "speakers",
-      "title": "Speakers",
-      "page_title": "Speakers",
-      "alias": "/speakers",
-      "component": "SpeakersView",
-      "visible": true
-    },
-    {
-      "name": "schedule",
-      "title": "Schedule",
-      "page_title": "Schedule",
-      "alias": "/schedule",
-      "component": "ScheduleView",
-      "visible": true
-    },
-    {
-      "name": "sponsors",
-      "title": "Sponsors",
-      "page_title": "Sponsors",
-      "alias": "/sponsors",
-      "component": "SponsorsView",
-      "visible": true
-    },
-    {
-      "name": "gallery",
-      "title": "Gallery",
-      "page_title": "Gallery",
-      "alias": "/gallery",
-      "component": "GalleryView",
-      "visible": true
-    },
-    {
-      "name": "gallery_year",
-      "title": "Gallery",
-      "page_title": "Gallery by year",
-      "alias": "/gallery/:year",
-      "component": "GalleryView",
-      "visible": false
-    },
-    {
-      "name": "contacts",
-      "title": "Contacts",
-      "page_title": "Contacts",
-      "alias": "/contacts",
-      "component": "ContactsView",
-      "visible": true
-    },
-    {
-      "name": "sign-in",
-      "title": "Sign in",
-      "page_title": "Login page",
-      "alias": "/sign-in",
-      "component": "SignInView",
-      "visible": true
-    },
-    {
-      "name": "sign-up",
-      "title": "Sign up",
-      "page_title": "Registration page",
-      "alias": "/sign-up",
-      "component": "SignUpView",
-      "visible": true
-    }
-  ],
-  "bottom_menu": [
-    {
-      "type": "subheader",
-      "title": "Main",
-      "visible": true
-    },
-    {
-      "name": "speakers",
-      "title": "Speakers",
-      "page_title": "Speakers",
-      "alias": "/speakers",
-      "component": "SpeakersView",
-      "visible": true
-    },
-    {
-      "name": "schedule",
-      "title": "Schedule",
-      "page_title": "Schedule",
-      "alias": "/schedule",
-      "component": "ScheduleView",
-      "visible": true
-    },
-    {
-      "name": "sponsors",
-      "title": "Sponsors",
-      "page_title": "Sponsors",
-      "alias": "/sponsors",
-      "component": "SponsorsView",
-      "visible": true
-    },
-    {
-      "name": "gallery",
-      "title": "Gallery",
-      "page_title": "Gallery",
-      "alias": "/gallery",
-      "component": "GalleryView",
-      "visible": true
-    },
-    {
-      "name": "contacts",
-      "title": "Contacts",
-      "page_title": "Contacts",
-      "alias": "/contacts",
-      "component": "ContactsView",
-      "visible": true
-    },
-    {
-      "type": "subheader",
-      "title": "Topics",
-      "visible": true
-    },
-    {
-      "name": "about",
-      "title": "About",
-      "page_title": "About",
-      "alias": "/about",
-      "component": "CustomPageView",
-      "visible": true
-    },
-    {
-      "name": "workshops",
-      "title": "Workshops",
-      "page_title": "Workshops",
-      "alias": "/workshops",
-      "component": "CustomPageView",
-      "visible": true
-    },
-    {
-      "name": "terms",
-      "title": "Terms",
-      "page_title": "Terms",
-      "alias": "/terms",
-      "component": "CustomPageView",
-      "visible": true
-    },
-    {
-      "name": "privacy",
-      "title": "Privacy",
-      "page_title": "Privacy",
-      "alias": "/privacy",
-      "component": "CustomPageView",
-      "visible": true
-    }
-  ]
-}
-*/
-
 class MenuItemSeeder extends Seeder
 {
     /**
@@ -191,7 +28,7 @@ class MenuItemSeeder extends Seeder
                 "component" => "HomeView",
                 "visible" => true,
                 "position" => 1,
-                "role" => 1,
+                "role" => -1,
                 "is_article" => false,
                 'is_top_menu_item' => true,
                 'is_bottom_menu_item' => false,
@@ -204,7 +41,7 @@ class MenuItemSeeder extends Seeder
                 "component" => "SpeakersView",
                 "visible" => true,
                 "position" => 2,
-                "role" => 1,
+                "role" => -1,
                 "is_article" => false,
                 'is_top_menu_item' => true,
                 'is_bottom_menu_item' => true,
@@ -217,7 +54,7 @@ class MenuItemSeeder extends Seeder
                 "component" => "ScheduleView",
                 "visible" => true,
                 "position" => 3,
-                "role" => 1,
+                "role" => -1,
                 "is_article" => false,
                 'is_top_menu_item' => true,
                 'is_bottom_menu_item' => true,
@@ -230,7 +67,7 @@ class MenuItemSeeder extends Seeder
                 "component" => "SponsorsView",
                 "visible" => true,
                 "position" => 4,
-                "role" => 1,
+                "role" => -1,
                 "is_article" => false,
                 'is_top_menu_item' => true,
                 'is_bottom_menu_item' => true,
@@ -243,7 +80,7 @@ class MenuItemSeeder extends Seeder
                 "component" => "GalleryView",
                 "visible" => true,
                 "position" => 5,
-                "role" => 1,
+                "role" => -1,
                 "is_article" => false,
                 'is_top_menu_item' => true,
                 'is_bottom_menu_item' => true,
@@ -256,7 +93,7 @@ class MenuItemSeeder extends Seeder
                 "component" => "GalleryView",
                 "visible" => false,
                 "position" => 6,
-                "role" => 1,
+                "role" => -1,
                 "is_article" => false,
                 'is_top_menu_item' => true,
                 'is_bottom_menu_item' => false,
@@ -269,7 +106,7 @@ class MenuItemSeeder extends Seeder
                 "component" => "ContactsView",
                 "visible" => true,
                 "position" => 7,
-                "role" => 1,
+                "role" => -1,
                 "is_article" => false,
                 'is_top_menu_item' => true,
                 'is_bottom_menu_item' => true,
@@ -280,6 +117,19 @@ class MenuItemSeeder extends Seeder
                 "page_title" => "Login page",
                 "path" => "/sign-in",
                 "component" => "SignInView",
+                "visible" => true,
+                "position" => 8,
+                "role" => 0,
+                "is_article" => false,
+                'is_top_menu_item' => true,
+                'is_bottom_menu_item' => false,
+            ],
+            [
+                "name" => "account",
+                "title" => "Account",
+                "page_title" => "Personal account",
+                "path" => "/account",
+                "component" => "AccountView",
                 "visible" => true,
                 "position" => 8,
                 "role" => 1,
@@ -295,7 +145,33 @@ class MenuItemSeeder extends Seeder
                 "component" => "SignUpView",
                 "visible" => true,
                 "position" => 9,
+                "role" => 0,
+                "is_article" => false,
+                'is_top_menu_item' => true,
+                'is_bottom_menu_item' => false,
+            ],
+            [
+                "name" => "sign-out",
+                "title" => "Sign out",
+                "page_title" => "Sign out",
+                "path" => "/sign-out",
+                "component" => "SignOutView",
+                "visible" => true,
+                "position" => 10,
                 "role" => 1,
+                "is_article" => false,
+                'is_top_menu_item' => true,
+                'is_bottom_menu_item' => false,
+            ],
+            [
+                "name" => "admin",
+                "title" => "Admin",
+                "page_title" => "Administration panel",
+                "path" => "/admin",
+                "component" => "AdminView",
+                "visible" => true,
+                "position" => 9,
+                "role" => 2,
                 "is_article" => false,
                 'is_top_menu_item' => true,
                 'is_bottom_menu_item' => false,
@@ -308,7 +184,7 @@ class MenuItemSeeder extends Seeder
                 "component" => "CustomPageView",
                 "visible" => true,
                 "position" => 1,
-                "role" => 1,
+                "role" => -1,
                 "is_article" => true,
                 'is_top_menu_item' => false,
                 'is_bottom_menu_item' => true,
@@ -321,7 +197,7 @@ class MenuItemSeeder extends Seeder
                 "component" => "CustomPageView",
                 "visible" => true,
                 "position" => 2,
-                "role" => 1,
+                "role" => -1,
                 "is_article" => true,
                 'is_top_menu_item' => false,
                 'is_bottom_menu_item' => true,
@@ -334,7 +210,7 @@ class MenuItemSeeder extends Seeder
                 "component" => "CustomPageView",
                 "visible" => true,
                 "position" => 3,
-                "role" => 1,
+                "role" => -1,
                 "is_article" => true,
                 'is_top_menu_item' => false,
                 'is_bottom_menu_item' => true,
@@ -347,7 +223,7 @@ class MenuItemSeeder extends Seeder
                 "component" => "CustomPageView",
                 "visible" => true,
                 "position" => 4,
-                "role" => 1,
+                "role" => -1,
                 "is_article" => true,
                 'is_top_menu_item' => false,
                 'is_bottom_menu_item' => true,
