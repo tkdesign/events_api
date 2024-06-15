@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `events_backend_db`.`slots` (
   `slot_id` INT NOT NULL AUTO_INCREMENT,
   `schedule_id` INT NOT NULL,
   `stage_id` INT NOT NULL,
-  `lection_id` INT NULL,
+  `lecture_id` INT NULL,
   `day` DATE NOT NULL,
   `start_time` TIME NOT NULL,
   `end_time` TIME NOT NULL,
@@ -21,16 +21,16 @@ CREATE TABLE IF NOT EXISTS `events_backend_db`.`slots` (
   `updated_at` TIMESTAMP NULL,
   PRIMARY KEY (`slot_id`),
   INDEX `fk_slots_stage_id_idx` (`stage_id` ASC) VISIBLE,
-  INDEX `fk_slots_lection_id_idx` (`lection_id` ASC) VISIBLE,
+  INDEX `fk_slots_lecture_id_idx` (`lecture_id` ASC) VISIBLE,
   INDEX `fk_slots_schedule_id_idx` (`schedule_id` ASC) VISIBLE,
   CONSTRAINT `fk_slots_stage_id`
     FOREIGN KEY (`stage_id`)
     REFERENCES `events_backend_db`.`stages` (`stage_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_slots_lection_id`
-    FOREIGN KEY (`lection_id`)
-    REFERENCES `events_backend_db`.`lections` (`lection_id`)
+  CONSTRAINT `fk_slots_lecture_id`
+    FOREIGN KEY (`lecture_id`)
+    REFERENCES `events_backend_db`.`lectures` (`lecture_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_slots_schedule_id`
@@ -53,7 +53,7 @@ class Slot extends Model
     protected $fillable = [
         'schedule_id',
         'stage_id',
-        'lection_id',
+        'lecture_id',
         'day',
         'start_time',
         'end_time',
@@ -72,8 +72,18 @@ class Slot extends Model
         'updated_at' => 'datetime',
     ];
 
-    public function lection()
+    public function stage()
     {
-        return $this->belongsTo(Lection::class, 'lection_id', 'lection_id');
+        return $this->hasOne(Stage::class, 'stage_id', 'stage_id');
+    }
+
+    public function schedule()
+    {
+        return $this->hasOne(Schedule::class, 'schedule_id', 'schedule_id');
+    }
+
+    public function lecture()
+    {
+        return $this->hasOne(Lecture::class, 'lecture_id', 'lecture_id');
     }
 }

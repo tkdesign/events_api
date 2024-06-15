@@ -31,7 +31,7 @@ class Curator extends Model
 
     protected $table = 'curators';
 
-    protected $primaryKey = 'curators_id';
+    protected $primaryKey = 'curator_id';
 
     protected $fillable = [
         'titul',

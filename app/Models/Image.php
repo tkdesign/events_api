@@ -53,8 +53,13 @@ class Image extends Model
     ];
 
     protected $casts = [
-        'visible' => 'boolean',
+//        'visible' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
+
+    public function gallery()
+    {
+        return $this->hasOne(Gallery::class, 'gallery_id', 'gallery_id');
+    }
 }

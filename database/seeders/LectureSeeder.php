@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Lection;
-use App\Models\LectionHasSpeaker;
+use App\Models\Lecture;
+use App\Models\LectureHasSpeaker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 
-class LectionSeeder extends Seeder
+class LectureSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,7 @@ class LectionSeeder extends Seeder
     public function run(): void
     {
         //
-        $lections = [
+        $lectures = [
             [
                 "title" => "The Future of Technology",
                 "short_desc" => "The Future of Technology is a talk about the future of technology. This talk will cover the latest trends in technology and what we can expect to see in the future.",
@@ -33,7 +33,7 @@ class LectionSeeder extends Seeder
                 "speaker_id" => 2
             ],
             [
-                "lection_id" => "3",
+                "lecture_id" => "3",
                 "title" => "The Future of Marketing",
                 "short_desc" => "The Future of Marketing is a talk about the future of marketing. This talk will cover the latest trends in marketing and what we can expect to see in the future.",
                 "desc" => "Jack Doe is a marketing expert. He has been working in the marketing industry for over 10 years. He has worked with some of the biggest companies in the world. He is a well-known speaker and has spoken at many events around the world. He is known for his knowledge and passion for marketing.",
@@ -68,14 +68,14 @@ class LectionSeeder extends Seeder
         ];
 
         Schema::disableForeignKeyConstraints();
-        Lection::truncate();
+        Lecture::truncate();
 
-        foreach ($lections as $lection) {
-            $speaker_id = $lection['speaker_id'];
-            unset($lection['speaker_id']);
-            Lection::create($lection);
-            LectionHasSpeaker::create([
-                'lection_id' => Lection::latest()->first()->lection_id,
+        foreach ($lectures as $lecture) {
+            $speaker_id = $lecture['speaker_id'];
+            unset($lecture['speaker_id']);
+            Lecture::create($lecture);
+            LectureHasSpeaker::create([
+                'lecture_id' => Lecture::latest()->first()->lecture_id,
                 'speaker_id' => $speaker_id
             ]);
         }

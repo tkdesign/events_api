@@ -3,207 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Models\MenuItem;
+use App\Models\Speaker;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Http\Request;
-/*
--- -----------------------------------------------------
--- Table `events_backend_db`.`menu_items`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `events_backend_db`.`menu_items` (
-  `menu_item_id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
-  `title` VARCHAR(45) NOT NULL,
-  `page_title` VARCHAR(255) NULL,
-  `path` VARCHAR(255) NOT NULL,
-  `component` VARCHAR(45) NOT NULL,
-  `visible` TINYINT NULL DEFAULT 1,
-  `position` INT NULL DEFAULT 1,
-  `role` INT NULL DEFAULT 1,
-  `is_article` TINYINT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT NOW(),
-  `updated_at` TIMESTAMP NULL,
-  `is_top_menu_item` TINYINT NULL DEFAULT 1,
-  `is_bottom_menu_item` TINYINT NULL DEFAULT 1,
-  PRIMARY KEY (`menu_item_id`),
-  INDEX `menu_items_role_position_idx` (`role` ASC, `position` ASC) VISIBLE,
-  INDEX `menu_items_created_at_idx` (`created_at` ASC) VISIBLE)
-ENGINE = InnoDB;
-*/
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
-/*
-{
-  "menu": [
-    {
-      "name": "home",
-      "title": "Home",
-      "page_title": "Home",
-      "alias": "/",
-      "component": "HomeView",
-      "visible": true
-    },
-    {
-      "name": "speakers",
-      "title": "Speakers",
-      "page_title": "Speakers",
-      "alias": "/speakers",
-      "component": "SpeakersView",
-      "visible": true
-    },
-    {
-      "name": "schedule",
-      "title": "Schedule",
-      "page_title": "Schedule",
-      "alias": "/schedule",
-      "component": "ScheduleView",
-      "visible": true
-    },
-    {
-      "name": "sponsors",
-      "title": "Sponsors",
-      "page_title": "Sponsors",
-      "alias": "/sponsors",
-      "component": "SponsorsView",
-      "visible": true
-    },
-    {
-      "name": "gallery",
-      "title": "Gallery",
-      "page_title": "Gallery",
-      "alias": "/gallery",
-      "component": "GalleryView",
-      "visible": true
-    },
-    {
-      "name": "gallery_year",
-      "title": "Gallery",
-      "page_title": "Gallery by year",
-      "alias": "/gallery/:year",
-      "component": "GalleryView",
-      "visible": false
-    },
-    {
-      "name": "contacts",
-      "title": "Contacts",
-      "page_title": "Contacts",
-      "alias": "/contacts",
-      "component": "ContactsView",
-      "visible": true
-    },
-    {
-      "name": "sign-in",
-      "title": "Sign in",
-      "page_title": "Login page",
-      "alias": "/sign-in",
-      "component": "SignInView",
-      "visible": true
-    },
-    {
-      "name": "sign-up",
-      "title": "Sign up",
-      "page_title": "Registration page",
-      "alias": "/sign-up",
-      "component": "SignUpView",
-      "visible": true
-    }
-  ],
-  "bottom_menu": [
-    {
-      "type": "subheader",
-      "title": "Main",
-      "visible": true
-    },
-    {
-      "name": "speakers",
-      "title": "Speakers",
-      "page_title": "Speakers",
-      "alias": "/speakers",
-      "component": "SpeakersView",
-      "visible": true
-    },
-    {
-      "name": "schedule",
-      "title": "Schedule",
-      "page_title": "Schedule",
-      "alias": "/schedule",
-      "component": "ScheduleView",
-      "visible": true
-    },
-    {
-      "name": "sponsors",
-      "title": "Sponsors",
-      "page_title": "Sponsors",
-      "alias": "/sponsors",
-      "component": "SponsorsView",
-      "visible": true
-    },
-    {
-      "name": "gallery",
-      "title": "Gallery",
-      "page_title": "Gallery",
-      "alias": "/gallery",
-      "component": "GalleryView",
-      "visible": true
-    },
-    {
-      "name": "contacts",
-      "title": "Contacts",
-      "page_title": "Contacts",
-      "alias": "/contacts",
-      "component": "ContactsView",
-      "visible": true
-    },
-    {
-      "type": "subheader",
-      "title": "Topics",
-      "visible": true
-    },
-    {
-      "name": "about",
-      "title": "About",
-      "page_title": "About",
-      "alias": "/about",
-      "component": "CustomPageView",
-      "visible": true
-    },
-    {
-      "name": "workshops",
-      "title": "Workshops",
-      "page_title": "Workshops",
-      "alias": "/workshops",
-      "component": "CustomPageView",
-      "visible": true
-    },
-    {
-      "name": "terms",
-      "title": "Terms",
-      "page_title": "Terms",
-      "alias": "/terms",
-      "component": "CustomPageView",
-      "visible": true
-    },
-    {
-      "name": "privacy",
-      "title": "Privacy",
-      "page_title": "Privacy",
-      "alias": "/privacy",
-      "component": "CustomPageView",
-      "visible": true
-    }
-  ]
-}
-*/
 class MenuController extends Controller
 {
     //
     public function getMenu()
     {
-        $topMenu = MenuItem::all(array('name', 'title', 'page_title', 'path as alias', 'component', 'visible', 'position', 'role', 'is_article', 'is_top_menu_item', 'is_bottom_menu_item'))
-            ->where('role', '=', 1)
+
+        $roles = $this->getUserRoles();
+
+//        Log::info('roles: ' . json_encode($roles));
+
+        $topMenu = MenuItem::query()
+            ->select(array('name', 'title', 'page_title', 'path as alias', 'component', 'visible', 'position', 'role', 'is_article', 'is_top_menu_item', 'is_bottom_menu_item'))
+            ->whereIn('role', $roles)
             ->where('is_top_menu_item', '=', true)
-            ->sortBy('position')->toArray();
-        $bottomMenu = MenuItem::all(array('name', 'title', 'page_title', 'path as alias', 'component', 'visible', 'position', 'role', 'is_article', 'is_top_menu_item', 'is_bottom_menu_item'))
-            ->where('role', '=', 1)
+            ->orderBy('position')
+            ->get()
+            ->toArray();
+        $bottomMenu = MenuItem::query()
+            ->select(array('name', 'title', 'page_title', 'path as alias', 'component', 'visible', 'position', 'role', 'is_article', 'is_top_menu_item', 'is_bottom_menu_item'))
+            ->whereIn('role', $roles)
             ->where('is_bottom_menu_item', '=', true)
-            ->sortBy('position')->toArray();
+            ->orderBy('position')
+            ->get()
+            ->toArray();
+
+
         $main_menu = [];
         foreach ($topMenu as $item) {
             $main_menu[] = $item;
@@ -236,5 +69,98 @@ class MenuController extends Controller
         }
         $menu['bottom_menu'] = array_merge($bottom_submenu_main, $bottom_submenu_topics);
         return response()->json($menu);
+    }
+
+    public function getMenuAdmin(Request $request): \Illuminate\Http\JsonResponse
+    {
+        /*
+        page=1&itemsPerPage=5&search[title]=asd&search[component]=asdwee
+        */
+        $menu_item = MenuItem::query()
+            ->where('title', 'like', '%' . $request->input('search.title', '') . '%')
+            ->where('component', 'like', '%' . $request->input('search.component', '') . '%')
+            ->orderBy($request->get('sortBy', 'menu_item_id'), $request->get('sortOrder', 'asc'))
+            ->paginate($request->get('itemsPerPage', 10), ['*'], 'page', $request->get('page', 1));
+        return response()->json($menu_item);
+    }
+
+    public function getMenuAdminAll(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $menu_item = MenuItem::query()
+            ->orderBy($request->get('sortBy', 'menu_item_id'), $request->get('sortOrder', 'asc'))
+            ->get();
+        return response()->json($menu_item);
+    }
+
+    public function getMenuItemAdmin(int $id): \Illuminate\Http\JsonResponse
+    {
+        $menu_item = MenuItem::find($id);
+        if (!$menu_item) {
+            return response()->json(['status' => false, 'message' => 'Menu item not found']);
+        }
+        return response()->json($menu_item);
+    }
+
+    public function updateMenuItem(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if (!$request->has('title') || !$request->has('path') || !$request->has('component')) {
+            return response()->json(['status' => false, 'message' => 'Missing required fields']);
+        }
+        if($request->has('menu_item_id') && $request->post('menu_item_id') > 0) {
+            $menu_item = MenuItem::find($request->post('menu_item_id'));
+            if (!$menu_item) {
+                return response()->json(['status' => false, 'message' => 'Menu item not found']);
+            }
+            Log::info('menu_item: ' . json_encode($menu_item));
+            $menu_item->name = $request->post('name', '');
+            $menu_item->title = $request->post('title', '');
+            $menu_item->page_title = $request->post('page_title', '');
+            $menu_item->path = $request->post('path', '');
+            $menu_item->component = $request->post('component', '');
+            $menu_item->visible = $request->post('visible', true);
+            $menu_item->position = $request->post('position', 1);
+            $menu_item->role = $request->post('role', -1);
+            $menu_item->is_article = $request->post('is_article', false);
+            $menu_item->is_top_menu_item = $request->post('is_top_menu_item', true);
+            $menu_item->is_bottom_menu_item = $request->post('is_bottom_menu_item', true);
+
+            $menu_item->save();
+            return response()->json($menu_item);
+        }
+        return response()->json(['status' => false, 'message' => 'Menu item not found']);
+    }
+
+    public function createMenuItem(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if (!$request->has('title') || !$request->has('path') || !$request->has('component')) {
+            return response()->json(['status' => false, 'message' => 'Missing required fields']);
+        }
+
+        $menu_item = new MenuItem();
+        $menu_item->name = $request->post('name', '');
+        $menu_item->title = $request->post('title', '');
+        $menu_item->page_title = $request->post('page_title', '');
+        $menu_item->path = $request->post('path', '');
+        $menu_item->component = $request->post('component', '');
+        $menu_item->visible = $request->post('visible', 1);
+        $menu_item->position = $request->post('position', 1);
+        $menu_item->role = $request->post('role', -1);
+        $menu_item->is_article = $request->post('is_article', 0);
+        $menu_item->is_top_menu_item = $request->post('is_top_menu_item', 1);
+        $menu_item->is_bottom_menu_item = $request->post('is_bottom_menu_item', 1);
+
+        $menu_item->save();
+
+        return response()->json($menu_item);
+    }
+
+    public function deleteMenuItem(int $id): \Illuminate\Http\JsonResponse
+    {
+        $menu_item = MenuItem::find($id);
+        if (!$menu_item) {
+            return response()->json(['status' => false, 'message' => 'Menu item not found']);
+        }
+        $menu_item->delete();
+        return response()->json(['status' => true, 'message' => 'Menu item deleted']);
     }
 }

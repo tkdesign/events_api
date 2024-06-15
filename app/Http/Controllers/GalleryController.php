@@ -6,30 +6,6 @@ use App\Models\Gallery;
 use App\Models\Image;
 use Illuminate\Http\Request;
 
-/*
-        $galleries = [
-            [
-                'event_id' => 1,
-                'title' => 'Web Dev 2022',
-                'short_desc' => 'Web Dev 2022',
-                'desc' => 'This is the gallery for the Web Dev 2022 conference.',
-            ],
-            [
-                'event_id' => 2,
-                'title' => 'Web Dev 2023',
-                'short_desc' => 'Web Dev 2023',
-                'desc' => 'This is the gallery for the Web Dev 2023 conference.',
-            ],
-            [
-                'event_id' => 3,
-                'title' => 'Web Dev 2024',
-                'short_desc' => 'Web Dev 2024',
-                'desc' => 'This is the gallery for the Web Dev 2024 conference.',
-            ]
-        ];
-
-*/
-
 class GalleryController extends Controller
 {
     //
@@ -59,4 +35,84 @@ class GalleryController extends Controller
         ];
         return response()->json($images_data);
     }
+
+    public function getGalleriesAdmin(Request $request): \Illuminate\Http\JsonResponse
+    {
+        /*
+        page=1&itemsPerPage=5&search[title]=asd
+        */
+        $galleries = Gallery::query()
+            ->where('title', 'like', '%' . $request->input('search.title', '') . '%')
+            ->orderBy($request->get('sortBy', 'gallery_id'), $request->get('sortOrder', 'asc'))
+            ->paginate($request->get('itemsPerPage', 10), ['*'], 'page', $request->get('page', 1));
+        foreach ($galleries as &$item) {
+            $item->setRelation('event', $item->event()->first(['event_id', 'title']));
+        }
+        return response()->json($galleries);
+    }
+
+    public function getGalleriesAllAdmin(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $galleries = Gallery::query()
+            ->orderBy($request->get('sortBy', 'gallery_id'), $request->get('sortOrder', 'asc'))
+            ->get();
+        return response()->json($galleries);
+    }
+
+    public function getGalleryAdmin(int $id): \Illuminate\Http\JsonResponse
+    {
+        $gallery = Gallery::find($id);
+        if (!$gallery) {
+            return response()->json(['status' => false, 'message' => 'Gallery not found']);
+        }
+        $gallery->setRelation($gallery->event()->first(['event_id', 'title']));
+        return response()->json($gallery);
+    }
+
+    public function updateGallery(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if (!$request->has('title')) {
+            return response()->json(['status' => false, 'message' => 'Missing required fields']);
+        }
+        if($request->has('gallery_id') && $request->post('gallery_id') > 0) {
+            $gallery = Gallery::find($request->post('gallery_id'));
+            if (!$gallery) {
+                return response()->json(['status' => false, 'message' => 'Gallery not found']);
+            }
+            $gallery->event_id = $request->post('event_id', 0);
+            $gallery->title = $request->post('title', '');
+            $gallery->short_desc = $request->post('short_desc', '');
+            $gallery->desc = $request->post('desc', '');
+            $gallery->save();
+            $gallery->setRelation('event', $gallery->event()->first(['event_id', 'title']));
+            return response()->json($gallery);
+        }
+        return response()->json(['status' => false, 'message' => 'Gallery not found']);
+    }
+
+    public function createGallery(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if (!$request->has('title')) {
+            return response()->json(['status' => false, 'message' => 'Missing required fields']);
+        }
+        $gallery = new Gallery();
+        $gallery->event_id = $request->post('event_id', 0);
+        $gallery->title = $request->post('title', '');
+        $gallery->short_desc = $request->post('short_desc', '');
+        $gallery->desc = $request->post('desc', '');
+        $gallery->save();
+        $gallery->setRelation('event', $gallery->event()->first(['event_id', 'title']));
+        return response()->json($gallery);
+    }
+
+    public function deleteGallery(int $id): \Illuminate\Http\JsonResponse
+    {
+        $gallery = Gallery::find($id);
+        if (!$gallery) {
+            return response()->json(['status' => false, 'message' => 'Gallery not found']);
+        }
+        $gallery->delete();
+        return response()->json(['status' => true, 'message' => 'Gallery deleted']);
+    }
+
 }

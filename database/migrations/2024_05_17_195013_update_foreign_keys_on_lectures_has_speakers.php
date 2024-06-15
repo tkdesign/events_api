@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('lections_has_speakers', function (Blueprint $table) {
-            $table->dropForeign(['lection_id']);
+        Schema::table('lectures_has_speakers', function (Blueprint $table) {
+            $table->dropForeign(['lecture_id']);
             $table->dropForeign(['speaker_id']);
-            $table->foreign('lection_id')->references('lection_id')->on('lections')->onDelete('cascade');
+            $table->foreign('lecture_id')->references('lecture_id')->on('lectures')->onDelete('cascade');
             $table->foreign('speaker_id')->references('speaker_id')->on('speakers')->onDelete('cascade');
         });
     }
@@ -24,10 +24,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('lections_has_speakers', function (Blueprint $table) {
-            $table->dropForeign(['lection_id']);
+        Schema::table('lectures_has_speakers', function (Blueprint $table) {
+            $table->dropForeign(['lecture_id']);
             $table->dropForeign(['speaker_id']);
-            $table->foreign('lection_id')->references('lection_id')->on('lections');
+            $table->foreign('lecture_id')->references('lecture_id')->on('lectures');
             $table->foreign('speaker_id')->references('speaker_id')->on('speakers');
         });
     }

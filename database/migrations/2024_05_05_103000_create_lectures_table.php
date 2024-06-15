@@ -6,10 +6,10 @@ use Illuminate\Support\Facades\Schema;
 
 /*
 -- -----------------------------------------------------
--- Table `events_backend_db`.`lections`
+-- Table `events_backend_db`.`lectures`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `events_backend_db`.`lections` (
-  `lection_id` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `events_backend_db`.`lectures` (
+  `lecture_id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL,
   `short_desc` VARCHAR(255) NULL,
   `desc` TEXT NULL,
@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS `events_backend_db`.`lections` (
   `capacity` INT NULL,
   `created_at` TIMESTAMP NULL DEFAULT NOW(),
   `updated_at` TIMESTAMP NULL,
-  PRIMARY KEY (`lection_id`),
-  INDEX `lections_created_at_idx` (`created_at` ASC) VISIBLE)
+  PRIMARY KEY (`lecture_id`),
+  INDEX `lectures_created_at_idx` (`created_at` ASC) VISIBLE)
 ENGINE = InnoDB;
 */
 
@@ -29,8 +29,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lections', function (Blueprint $table) {
-            $table->id('lection_id');
+        Schema::create('lectures', function (Blueprint $table) {
+            $table->id('lecture_id');
             $table->string('title', 255);
             $table->string('short_desc', 255)->nullable();
             $table->text('desc')->nullable();
@@ -46,6 +46,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lections');
+        Schema::dropIfExists('lectures');
     }
 };

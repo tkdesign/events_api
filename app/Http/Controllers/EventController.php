@@ -3,51 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-
-/*
-{
-  "event_id": 1,
-  "title": "Web Dev 2024",
-  "desc_short": "The future of web development",
-  "desc": "Web Dev 2024 is a conference that will focus on the future of web development. We will have speakers from all over the world talking about the latest technologies and trends in web development.",
-  "year": 2024,
-  "start_date": "2024-07-01",
-  "end_date": "2024-07-02",
-  "image": "https://images.unsplash.com/photo-1527686956515-6d2f2d1b4e1f",
-  "thumbnail": "https://images.unsplash.com/photo-1527686956515-6d2f2d1b4e1f",
-  "is_current": true,
-  "location": "Nitra, Slovakia",
-  "place": "UKF Nitra, Faculty of Natural Sciences",
-  "address": "Trieda A.Hlinku, 1, 949 01 Nitra, Slovakia"
-}
-*/
-
-/*
--- -----------------------------------------------------
--- Table `events_backend_db`.`events`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `events_backend_db`.`events` (
-  `event_id` INT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(255) NOT NULL,
-  `desc_short` VARCHAR(255) NULL,
-  `desc` TEXT NULL,
-  `year` INT NOT NULL,
-  `start_date` DATE NULL,
-  `end_date` DATE NULL,
-  `image` VARCHAR(255) NULL,
-  `thumbnail` VARCHAR(255) NULL,
-  `is_current` TINYINT NULL,
-  `location` VARCHAR(255) NULL,
-  `place` VARCHAR(255) NULL,
-  `address` VARCHAR(255) NULL,
-  `created_at` TIMESTAMP NULL DEFAULT NOW(),
-  `updated_at` TIMESTAMP NULL,
-  PRIMARY KEY (`event_id`),
-  INDEX `events_created_at_idx` (`created_at` ASC) VISIBLE,
-  UNIQUE INDEX `events_year_idx` (`year` ASC) VISIBLE)
-ENGINE = InnoDB;
- */
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -56,8 +15,137 @@ class EventController extends Controller
     {
         $event = Event::where('is_current', true)->first();
         if (!$event) {
-            return response()->json(['message' => 'Current event not found'], 404);
+            return response()->json(['status' => false, 'message' => 'Current event not found']);
         }
         return response()->json($event);
+    }
+
+    public function getEventsAdmin(Request $request): \Illuminate\Http\JsonResponse
+    {
+        /*
+        page=1&itemsPerPage=5&search[title]=2&search[year]=24
+        */
+        $events = Event::query()
+            ->where('title', 'like', '%' . $request->input('search.title', '') . '%')
+            ->where('year', 'like', '%' . $request->input('search.year', '') . '%')
+            ->orderBy($request->get('sortBy', 'event_id'), $request->get('sortOrder', 'asc'))
+            ->paginate($request->get('itemsPerPage', 10), ['*'], 'page', $request->get('page', 1));
+        return response()->json($events);
+    }
+
+    public function getEventsAllAdmin(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $events = Event::query()
+            ->orderBy($request->get('sortBy', 'event_id'), $request->get('sortOrder', 'asc'))
+            ->get();
+        return response()->json($events);
+    }
+
+    public function getEventAdmin(int $id): \Illuminate\Http\JsonResponse
+    {
+        $event = Event::find($id);
+        if (!$event) {
+            return response()->json(['status' => false, 'message' => 'Event not found']);
+        }
+        return response()->json($event);
+    }
+
+    public function updateEvent(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if (!$request->has('title') || !$request->has('year')) {
+            return response()->json(['status' => false, 'message' => 'Missing required fields']);
+        }
+        if($request->has('event_id') && $request->post('event_id') > 0) {
+            $images_folder = 'images/events';
+            $event = Event::find($request->post('event_id'));
+            if (!$event) {
+                return response()->json(['status' => false, 'message' => 'Event not found']);
+            }
+            $event->title = $request->post('title', '');
+            $event->desc_short = $request->post('desc_short', '');
+            $event->desc = $request->post('desc', '');
+            $event->year = $request->post('year', 0);
+            $event->start_date = Carbon::parse($request->post('start_date', ''))->toDateString();
+            $event->end_date = Carbon::parse($request->post('end_date', ''))->toDateString();
+            if($request->hasFile('image')) {
+                if($event->image) {
+                    Storage::delete(public_path($event->image));
+                }
+                $image = $request->file('image');
+                $imageName = time().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path($images_folder), $imageName);
+                $event->image = "/$images_folder/".$imageName;
+            }
+            if($request->hasFile('thumbnail')) {
+                if($event->thumbnail) {
+                    Storage::delete(public_path($event->thumbnail));
+                }
+                $thumbnail = $request->file('thumbnail');
+                $thumbnailName = time().'.'.$thumbnail->getClientOriginalExtension();
+                $thumbnail->move(public_path($images_folder."/thumbnails"), $thumbnailName);
+                $event->thumbnail = "/$images_folder/thumbnails/".$thumbnailName;
+            }
+            if ($request->input('is_current') == "false") {
+                $event->is_current = false;
+            } else {
+                $event->is_current = !!$request->input('is_current', false);
+            }
+            $event->location = $request->post('location', '');
+            $event->place = $request->post('place', '');
+            $event->address = $request->post('address', '');
+            $event->save();
+            return response()->json($event);
+        }
+        return response()->json(['status' => false, 'message' => 'Event not found']);
+    }
+
+    public function createEvent(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if (!$request->has('title') || !$request->has('year')) {
+            return response()->json(['status' => false, 'message' => 'Missing required fields']);
+        }
+        $images_folder = 'images/events';
+
+        $event = new Event();
+        $event->title = $request->post('title', '');
+        $event->desc_short = $request->post('desc_short', '');
+        $event->desc = $request->post('desc', '');
+        $event->year = $request->post('year', now()->year);
+        $event->start_date = Carbon::parse($request->post('start_date', ''))->toDateString();
+        $event->end_date = Carbon::parse($request->post('end_date', ''))->toDateString();
+        if($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path($images_folder), $imageName);
+            $event->image = "/$images_folder/".$imageName;
+        }
+        if($request->hasFile('thumbnail')) {
+            $thumbnail = $request->file('thumbnail');
+            $thumbnailName = time().'.'.$thumbnail->getClientOriginalExtension();
+            $thumbnail->move(public_path("$images_folder/thumbnails"), $thumbnailName);
+            $event->thumbnail = "/$images_folder/thumbnails/".$thumbnailName;
+        }
+        if ($request->input('is_current') == "false") {
+            $event->is_current = false;
+        } else {
+            $event->is_current = !!$request->input('is_current', false);
+        }
+        $event->location = $request->post('location', '');
+        $event->place = $request->post('place', '');
+        $event->address = $request->post('address', '');
+
+        $event->save();
+
+        return response()->json($event);
+    }
+
+    public function deleteEvent(int $id): \Illuminate\Http\JsonResponse
+    {
+        $event = Event::find($id);
+        if (!$event) {
+            return response()->json(['status' => false, 'message' => 'Event not found']);
+        }
+        $event->delete();
+        return response()->json(['status' => true, 'message' => 'Event deleted']);
     }
 }

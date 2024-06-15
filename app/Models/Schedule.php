@@ -51,4 +51,7 @@ class Schedule extends Model
         return $this->hasMany(Stage::class, 'schedule_id', 'schedule_id');
     }
 
+    public function event() {
+        return $this->hasOne(Event::class, 'event_id', 'event_id');
+    }
 }

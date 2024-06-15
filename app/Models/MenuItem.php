@@ -53,11 +53,11 @@ class MenuItem extends Model
     ];
 
     protected $casts = [
-        'visible' => 'boolean',
-        'is_article' => 'boolean',
+//        'visible' => 'boolean',
+//        'is_article' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'is_top_menu_item' => 'boolean',
-        'is_bottom_menu_item' => 'boolean',
+//        'is_top_menu_item' => 'boolean',
+//        'is_bottom_menu_item' => 'boolean',
     ];
 }

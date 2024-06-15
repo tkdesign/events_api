@@ -4,111 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Curator;
 use Illuminate\Http\Request;
-
-/*
-{
-  "curators": [
-    {
-      "type": "subheader",
-      "title": "Curators"
-    },
-    {
-      "image": "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-      "title": "PAVOL KOLLAR",
-      "company": "UKF",
-      "role": "Organizer",
-      "phone": "+421 596 355 32",
-      "email": "pavel_kollar@ukf.sk"
-    },
-    {
-      "type": "divider",
-      "inset": true
-    },
-    {
-      "image": "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-      "title": "INGRID KOLLAR",
-      "company": "UKF",
-      "role": "Planer",
-      "phone": "+421 596 355 32",
-      "email": "ingrid_kollar@ukf.sk"
-    }
-  ]
-}
-*/
-/*
--- -----------------------------------------------------
--- Table `events_backend_db`.`curators`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `events_backend_db`.`curators` (
-  `curators_id` INT NOT NULL AUTO_INCREMENT,
-  `titul` VARCHAR(45) NULL,
-  `first_name` VARCHAR(255) NOT NULL,
-  `last_name` VARCHAR(255) NULL,
-  `company` VARCHAR(255) NULL,
-  `occupation` VARCHAR(255) NULL,
-  `phone` VARCHAR(255) NULL,
-  `email` VARCHAR(255) NULL,
-  `photo_url` VARCHAR(255) NULL,
-  `created_at` TIMESTAMP NULL DEFAULT NOW(),
-  `updated_at` TIMESTAMP NULL,
-  PRIMARY KEY (`curators_id`),
-  INDEX `curators_created_at_idx` (`created_at` ASC) VISIBLE)
-ENGINE = InnoDB;
-*/
-/*
--- -----------------------------------------------------
--- Table `events_backend_db`.`events`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `events_backend_db`.`events` (
-  `event_id` INT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(255) NOT NULL,
-  `desc_short` VARCHAR(255) NULL,
-  `desc` TEXT NULL,
-  `year` INT NOT NULL,
-  `start_date` DATE NULL,
-  `end_date` DATE NULL,
-  `image` VARCHAR(255) NULL,
-  `thumbnail` VARCHAR(255) NULL,
-  `is_current` TINYINT NULL,
-  `location` VARCHAR(255) NULL,
-  `place` VARCHAR(255) NULL,
-  `address` VARCHAR(255) NULL,
-  `created_at` TIMESTAMP NULL DEFAULT NOW(),
-  `updated_at` TIMESTAMP NULL,
-  PRIMARY KEY (`event_id`),
-  INDEX `events_created_at_idx` (`created_at` ASC) VISIBLE,
-  UNIQUE INDEX `events_year_idx` (`year` ASC) VISIBLE)
-ENGINE = InnoDB;
-*/
-/*
--- -----------------------------------------------------
--- Table `events_backend_db`.`events_has_curators`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `events_backend_db`.`events_has_curators` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `event_id` INT NOT NULL,
-  `curator_id` INT NOT NULL,
-  `visible` TINYINT NULL DEFAULT 1,
-  `position` INT NULL DEFAULT 1,
-  `created_at` TIMESTAMP NULL DEFAULT NOW(),
-  `updated_at` TIMESTAMP NULL,
-  INDEX `fk_events_has_curators_curator_id_idx` (`curator_id` ASC) INVISIBLE,
-  INDEX `fk_events_has_curators_event_id_idx` (`event_id` ASC) VISIBLE,
-  INDEX `events_has_curators_position_idx` (`position` ASC) VISIBLE,
-  INDEX `events_has_curators_created_at_idx` (`created_at` ASC) VISIBLE,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_events_has_curators_event_id`
-    FOREIGN KEY (`event_id`)
-    REFERENCES `events_backend_db`.`events` (`event_id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_events_has_curators_curator_id`
-    FOREIGN KEY (`curator_id`)
-    REFERENCES `events_backend_db`.`curators` (`curators_id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-*/
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ContactsController extends Controller
 {
@@ -145,5 +42,106 @@ class ContactsController extends Controller
         }
         $curators_data = ['curators' => $curators_list];
         return response()->json($curators_data);
+    }
+
+    public function getContactsAdmin(Request $request): \Illuminate\Http\JsonResponse
+    {
+        /*
+        page=1&itemsPerPage=5&search[first_name]=asd&search[last_name]=asdwee
+        */
+        $curator = Curator::query()
+            ->where('first_name', 'like', '%' . $request->input('search.first_name', '') . '%')
+            ->where('last_name', 'like', '%' . $request->input('search.last_name', '') . '%')
+            ->orderBy($request->get('sortBy', 'curator_id'), $request->get('sortOrder', 'asc'))
+            ->paginate($request->get('itemsPerPage', 10), ['*'], 'page', $request->get('page', 1));
+        return response()->json($curator);
+    }
+
+    public function getContactsAllAdmin(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $curator = Curator::query()
+            ->selectRaw('curator_id, CONCAT(first_name, " ", last_name) AS curator_name')
+            ->orderBy($request->get('sortBy', 'curator_id'), $request->get('sortOrder', 'asc'))
+            ->get();
+        return response()->json($curator);
+    }
+
+    public function getContactAdmin(int $id): \Illuminate\Http\JsonResponse
+    {
+        $curator = Curator::find($id);
+        if (!$curator) {
+            return response()->json(['status' => false, 'message' => 'Curator not found']);
+        }
+        return response()->json($curator);
+    }
+
+    public function updateContact(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if (!$request->has('first_name')) {
+            return response()->json(['status' => false, 'message' => 'Missing required fields']);
+        }
+        if($request->has('curator_id') && $request->post('curator_id') > 0) {
+            $images_folder = 'images/curators';
+            $curator = Curator::find($request->post('curator_id'));
+            if (!$curator) {
+                return response()->json(['status' => false, 'message' => 'Curator not found']);
+            }
+            $curator->titul = $request->post('titul', '');
+            $curator->first_name = $request->post('first_name', '');
+            $curator->last_name = $request->post('last_name', '');
+            $curator->company = $request->post('company', '');
+            $curator->occupation = $request->post('occupation', '');
+            $curator->phone = $request->post('phone', '');
+            $curator->email = $request->post('email', '');
+            if($request->hasFile('photo_url')) {
+                if($curator->photo_url) {
+                    Storage::delete(public_path($curator->photo_url));
+                }
+                $image = $request->file('photo_url');
+                $imageName = time().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path($images_folder), $imageName);
+                $curator->photo_url = "/$images_folder/".$imageName;
+            }
+            $curator->save();
+            return response()->json($curator);
+        }
+        return response()->json(['status' => false, 'message' => 'Curator not found']);
+    }
+
+    public function createContact(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if (!$request->has('first_name')) {
+            return response()->json(['status' => false, 'message' => 'Missing required fields']);
+        }
+        $images_folder = 'images/curators';
+
+        $curator = new Curator();
+        $curator->titul = $request->post('titul', '');
+        $curator->first_name = $request->post('first_name', '');
+        $curator->last_name = $request->post('last_name', '');
+        $curator->company = $request->post('company', '');
+        $curator->occupation = $request->post('occupation', '');
+        $curator->phone = $request->post('phone', '');
+        $curator->email = $request->post('email', '');
+        if($request->hasFile('photo_url')) {
+            $image = $request->file('photo_url');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path($images_folder), $imageName);
+            $curator->photo_url = "/$images_folder/".$imageName;
+        }
+
+        $curator->save();
+
+        return response()->json($curator);
+    }
+
+    public function deleteContact(int $id): \Illuminate\Http\JsonResponse
+    {
+        $curator = Curator::find($id);
+        if (!$curator) {
+            return response()->json(['status' => false, 'message' => 'Curator not found']);
+        }
+        $curator->delete();
+        return response()->json(['status' => true, 'message' => 'Curator deleted']);
     }
 }
