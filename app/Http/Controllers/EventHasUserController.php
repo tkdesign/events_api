@@ -56,10 +56,10 @@ class EventHasUserController extends Controller
             if (!$eventHasUser) {
                 return response()->json(['status' => false, 'message' => 'Event/User Relation not found']);
             }
-            $eventHasUser->event_id = $request->post('event_id', 0);
-            $eventHasUser->user_id = $request->post('user_id', 0);
-            $eventHasUser->visible = $request->post('visible', 1);
-            $eventHasUser->position = $request->post('position', 1);
+            $eventHasUser->event_id = (int) $request->post('event_id', 0);
+            $eventHasUser->user_id = (int) $request->post('user_id', 0);
+            $eventHasUser->visible = (int) $request->post('visible', 1);
+            $eventHasUser->position = (int) $request->post('position', 1);
             $eventHasUser->save();
             $eventHasUser->setRelation('event', $eventHasUser->event()->first(['event_id', 'title']));
             $eventHasUser->setRelation('user', $eventHasUser->user()->selectRaw('id, CONCAT(first_name, " ", last_name) AS user_name')->first());
@@ -74,10 +74,10 @@ class EventHasUserController extends Controller
             return response()->json(['status' => false, 'message' => 'Missing required fields']);
         }
         $eventHasUser = new EventHasUser();
-        $eventHasUser->event_id = $request->post('event_id', 0);
-        $eventHasUser->user_id = $request->post('user_id', 0);
-        $eventHasUser->visible = $request->post('visible', 1);
-        $eventHasUser->position = $request->post('position', 1);
+        $eventHasUser->event_id = (int) $request->post('event_id', 0);
+        $eventHasUser->user_id = (int) $request->post('user_id', 0);
+        $eventHasUser->visible = (int) $request->post('visible', 1);
+        $eventHasUser->position = (int) $request->post('position', 1);
         $eventHasUser->save();
         $eventHasUser->setRelation('event', $eventHasUser->event()->first(['event_id', 'title']));
         $eventHasUser->setRelation('user', $eventHasUser->user()->selectRaw('id, CONCAT(first_name, " ", last_name) AS user_name')->first());
@@ -118,8 +118,8 @@ class EventHasUserController extends Controller
         if ($subscribe) {
             if (!$eventHasUser) {
                 $eventHasUser = new EventHasUser();
-                $eventHasUser->event_id = $event->event_id;
-                $eventHasUser->user_id = $request->user()->id;
+                $eventHasUser->event_id = (int) $event->event_id;
+                $eventHasUser->user_id = (int) $request->user()->id;
                 $eventHasUser->visible = 1;
                 $eventHasUser->position = 1;
                 $eventHasUser->save();

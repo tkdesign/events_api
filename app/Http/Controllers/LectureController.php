@@ -62,7 +62,7 @@ class LectureController extends Controller
                 $lectureFile->move(public_path($lectures_folder), $lectureFileName);
                 $lecture->image = "/$lectures_folder/".$lectureFileName;
             }
-            $lecture->capacity = $request->post('capacity', 0);
+            $lecture->capacity = (int) $request->post('capacity', 0);
             $lecture->save();
             return response()->json($lecture);
         }
@@ -86,7 +86,7 @@ class LectureController extends Controller
             $lectureFile->move(public_path($lectures_folder), $lectureFileName);
             $lecture->image = "/$lectures_folder/".$lectureFileName;
         }
-        $lecture->capacity = $request->post('capacity', 0);
+        $lecture->capacity = (int) $request->post('capacity', 0);
 
         $lecture->save();
 

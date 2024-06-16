@@ -62,8 +62,8 @@ class TestimonialController extends Controller
             if (!$testimonial) {
                 return response()->json(['status' => false, 'message' => 'Testimonial not found']);
             }
-            $testimonial->user_id = $request->post('user_id', 0);
-            $testimonial->event_id = $request->post('event_id', 0);
+            $testimonial->user_id = (int) $request->post('user_id', 0);
+            $testimonial->event_id = (int) $request->post('event_id', 0);
             $testimonial->desc = $request->post('desc', '');
             if($request->hasFile('image')) {
                 if($testimonial->image) {
@@ -83,9 +83,9 @@ class TestimonialController extends Controller
                 $testimonialFile->move(public_path($testimonials_folder), $testimonialName);
                 $testimonial->thumbnail = "/$testimonials_folder/".$testimonialName;
             }
-            $testimonial->rating = $request->post('rating', 5);
-            $testimonial->visible = $request->post('visible', 1);
-            $testimonial->position = $request->post('position', 1);
+            $testimonial->rating = (int) $request->post('rating', 5);
+            $testimonial->visible = (int) $request->post('visible', 1);
+            $testimonial->position = (int) $request->post('position', 1);
             $testimonial->save();
             $testimonial->setRelation('user', $testimonial->user()->first(['id', 'name']));
             $testimonial->setRelation('event', $testimonial->event()->first(['event_id', 'title']));
@@ -102,8 +102,8 @@ class TestimonialController extends Controller
         $testimonials_folder = 'images/testimonials';
 
         $testimonial = new Testimonial();
-        $testimonial->user_id = $request->post('user_id', 0);
-        $testimonial->event_id = $request->post('event_id', 0);
+        $testimonial->user_id = (int) $request->post('user_id', 0);
+        $testimonial->event_id = (int) $request->post('event_id', 0);
         $testimonial->desc = $request->post('desc', '');
         if($request->hasFile('image')) {
             $testimonialFile = $request->file('image');
@@ -117,9 +117,9 @@ class TestimonialController extends Controller
             $testimonialFile->move(public_path($testimonials_folder), $testimonialName);
             $testimonial->thumbnail = "/$testimonials_folder/".$testimonialName;
         }
-        $testimonial->rating = $request->post('rating', 5);
-        $testimonial->visible = $request->post('visible', 1);
-        $testimonial->position = $request->post('position', 1);
+        $testimonial->rating = (int) $request->post('rating', 5);
+        $testimonial->visible = (int) $request->post('visible', 1);
+        $testimonial->position = (int) $request->post('position', 1);
 
         $testimonial->save();
         $testimonial->setRelation('user', $testimonial->user()->first(['id', 'name']));

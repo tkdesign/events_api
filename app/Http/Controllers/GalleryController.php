@@ -79,7 +79,7 @@ class GalleryController extends Controller
             if (!$gallery) {
                 return response()->json(['status' => false, 'message' => 'Gallery not found']);
             }
-            $gallery->event_id = $request->post('event_id', 0);
+            $gallery->event_id = (int) $request->post('event_id', 0);
             $gallery->title = $request->post('title', '');
             $gallery->short_desc = $request->post('short_desc', '');
             $gallery->desc = $request->post('desc', '');
@@ -96,7 +96,7 @@ class GalleryController extends Controller
             return response()->json(['status' => false, 'message' => 'Missing required fields']);
         }
         $gallery = new Gallery();
-        $gallery->event_id = $request->post('event_id', 0);
+        $gallery->event_id = (int) $request->post('event_id', 0);
         $gallery->title = $request->post('title', '');
         $gallery->short_desc = $request->post('short_desc', '');
         $gallery->desc = $request->post('desc', '');

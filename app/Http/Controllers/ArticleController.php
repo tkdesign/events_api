@@ -57,7 +57,7 @@ class ArticleController extends Controller
             if (!$article) {
                 return response()->json(['status' => false, 'message' => 'Article not found']);
             }
-            $article->menu_item_id = $request->post('menu_item_id', 0);
+            $article->menu_item_id = (int) $request->post('menu_item_id', 0);
             $article->title = $request->post('title', '');
             $article->short_desc = $request->post('short_desc', '');
             $article->desc = $request->post('desc', '');
@@ -74,7 +74,7 @@ class ArticleController extends Controller
             return response()->json(['status' => false, 'message' => 'Missing required fields']);
         }
         $article = new Article();
-        $article->menu_item_id = $request->post('menu_item_id', 0);
+        $article->menu_item_id = (int) $request->post('menu_item_id', 0);
         $article->title = $request->post('title', '');
         $article->short_desc = $request->post('short_desc', '');
         $article->desc = $request->post('desc', '');

@@ -50,10 +50,10 @@ class LectureHasSpeakerController extends Controller
             if (!$lectureHasSpeaker) {
                 return response()->json(['status' => false, 'message' => 'lecture/Speaker Relation not found']);
             }
-            $lectureHasSpeaker->lecture_id = $request->post('lecture_id', 0);
-            $lectureHasSpeaker->speaker_id = $request->post('speaker_id', 0);
-            $lectureHasSpeaker->visible = $request->post('visible', 1);
-            $lectureHasSpeaker->position = $request->post('position', 1);
+            $lectureHasSpeaker->lecture_id = (int) $request->post('lecture_id', 0);
+            $lectureHasSpeaker->speaker_id = (int) $request->post('speaker_id', 0);
+            $lectureHasSpeaker->visible = (int) $request->post('visible', 1);
+            $lectureHasSpeaker->position = (int) $request->post('position', 1);
             $lectureHasSpeaker->save();
             $lectureHasSpeaker->setRelation('lecture', $lectureHasSpeaker->lecture()->first(['lecture_id', 'title']));
             $lectureHasSpeaker->setRelation('speaker', $lectureHasSpeaker->speaker()->selectRaw('speaker_id, CONCAT(first_name, " ", last_name) AS speaker_name')->first());
@@ -68,10 +68,10 @@ class LectureHasSpeakerController extends Controller
             return response()->json(['status' => false, 'message' => 'Missing required fields']);
         }
         $lectureHasSpeaker = new LectureHasSpeaker();
-        $lectureHasSpeaker->lecture_id = $request->post('lecture_id', 0);
-        $lectureHasSpeaker->speaker_id = $request->post('speaker_id', 0);
-        $lectureHasSpeaker->visible = $request->post('visible', 1);
-        $lectureHasSpeaker->position = $request->post('position', 1);
+        $lectureHasSpeaker->lecture_id = (int) $request->post('lecture_id', 0);
+        $lectureHasSpeaker->speaker_id = (int) $request->post('speaker_id', 0);
+        $lectureHasSpeaker->visible = (int) $request->post('visible', 1);
+        $lectureHasSpeaker->position = (int) $request->post('position', 1);
         $lectureHasSpeaker->save();
         $lectureHasSpeaker->setRelation('lecture', $lectureHasSpeaker->lecture()->first(['lecture_id', 'title']));
         $lectureHasSpeaker->setRelation('speaker', $lectureHasSpeaker->speaker()->selectRaw('speaker_id, CONCAT(first_name, " ", last_name) AS speaker_name')->first());

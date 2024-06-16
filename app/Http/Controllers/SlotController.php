@@ -55,9 +55,9 @@ class SlotController extends Controller
             if (!$slot) {
                 return response()->json(['status' => false, 'message' => 'Slot not found']);
             }
-            $slot->lecture_id = $request->post('lecture_id', 0);
-            $slot->stage_id = $request->post('stage_id', 0);
-            $slot->schedule_id = $request->post('schedule_id', 0);
+            $slot->lecture_id = (int) $request->post('lecture_id', 0);
+            $slot->stage_id = (int) $request->post('stage_id', 0);
+            $slot->schedule_id = (int) $request->post('schedule_id', 0);
             $slot->day = $request->post('day', date('Y-m-d'));
             $slot->start_time = Carbon::parse($request->post('start_time', '00:00:00'))->toTimeString();
             $slot->end_time = Carbon::parse($request->post('end_time', '00:00:00'))->toTimeString();
@@ -76,9 +76,9 @@ class SlotController extends Controller
             return response()->json(['status' => false, 'message' => 'Missing required fields']);
         }
         $slot = new Slot();
-        $slot->lecture_id = $request->post('lecture_id', 0);
-        $slot->stage_id = $request->post('stage_id', 0);
-        $slot->schedule_id = $request->post('schedule_id', 0);
+        $slot->lecture_id = (int) $request->post('lecture_id', 0);
+        $slot->stage_id = (int) $request->post('stage_id', 0);
+        $slot->schedule_id = (int) $request->post('schedule_id', 0);
         $slot->day = $request->post('day', date('Y-m-d'));
         $slot->start_time = Carbon::parse($request->post('start_time', '00:00:00'))->toTimeString();
         $slot->end_time = Carbon::parse($request->post('end_time', '00:00:00'))->toTimeString();

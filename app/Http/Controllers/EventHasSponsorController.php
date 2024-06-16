@@ -50,10 +50,10 @@ class EventHasSponsorController extends Controller
             if (!$eventHasSponsor) {
                 return response()->json(['status' => false, 'message' => 'Event/Sponsor Relation not found']);
             }
-            $eventHasSponsor->event_id = $request->post('event_id', 0);
-            $eventHasSponsor->sponsor_id = $request->post('sponsor_id', 0);
-            $eventHasSponsor->visible = $request->post('visible', 1);
-            $eventHasSponsor->position = $request->post('position', 1);
+            $eventHasSponsor->event_id = (int) $request->post('event_id', 0);
+            $eventHasSponsor->sponsor_id = (int) $request->post('sponsor_id', 0);
+            $eventHasSponsor->visible = (int) $request->post('visible', 1);
+            $eventHasSponsor->position = (int) $request->post('position', 1);
             $eventHasSponsor->save();
             $eventHasSponsor->setRelation('event', $eventHasSponsor->event()->first(['event_id', 'title']));
             $eventHasSponsor->setRelation('sponsor', $eventHasSponsor->sponsor()->first(['sponsor_id', 'name']));
@@ -68,10 +68,10 @@ class EventHasSponsorController extends Controller
             return response()->json(['status' => false, 'message' => 'Missing required fields']);
         }
         $eventHasSponsor = new EventHasSponsor();
-        $eventHasSponsor->event_id = $request->post('event_id', 0);
-        $eventHasSponsor->sponsor_id = $request->post('sponsor_id', 0);
-        $eventHasSponsor->visible = $request->post('visible', 1);
-        $eventHasSponsor->position = $request->post('position', 1);
+        $eventHasSponsor->event_id = (int) $request->post('event_id', 0);
+        $eventHasSponsor->sponsor_id = (int) $request->post('sponsor_id', 0);
+        $eventHasSponsor->visible = (int) $request->post('visible', 1);
+        $eventHasSponsor->position = (int) $request->post('position', 1);
         $eventHasSponsor->save();
         $eventHasSponsor->setRelation('event', $eventHasSponsor->event()->first(['event_id', 'title']));
         $eventHasSponsor->setRelation('sponsor', $eventHasSponsor->sponsor()->first(['sponsor_id', 'name']));

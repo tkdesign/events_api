@@ -50,10 +50,10 @@ class EventHasCuratorController extends Controller
             if (!$eventHasCurator) {
                 return response()->json(['status' => false, 'message' => 'Event/Curator Relation not found']);
             }
-            $eventHasCurator->event_id = $request->post('event_id', 0);
-            $eventHasCurator->curator_id = $request->post('curator_id', 0);
-            $eventHasCurator->visible = $request->post('visible', 1);
-            $eventHasCurator->position = $request->post('position', 1);
+            $eventHasCurator->event_id = (int) $request->post('event_id', 0);
+            $eventHasCurator->curator_id = (int) $request->post('curator_id', 0);
+            $eventHasCurator->visible = (int) $request->post('visible', 1);
+            $eventHasCurator->position = (int) $request->post('position', 1);
             $eventHasCurator->save();
             $eventHasCurator->setRelation('event', $eventHasCurator->event()->first(['event_id', 'title']));
             $eventHasCurator->setRelation('curator', $eventHasCurator->curator()->selectRaw('curator_id, CONCAT(first_name, " ", last_name) AS curator_name')->first());
@@ -68,10 +68,10 @@ class EventHasCuratorController extends Controller
             return response()->json(['status' => false, 'message' => 'Missing required fields']);
         }
         $eventHasCurator = new EventHasCurator();
-        $eventHasCurator->event_id = $request->post('event_id', 0);
-        $eventHasCurator->curator_id = $request->post('curator_id', 0);
-        $eventHasCurator->visible = $request->post('visible', 1);
-        $eventHasCurator->position = $request->post('position', 1);
+        $eventHasCurator->event_id = (int) $request->post('event_id', 0);
+        $eventHasCurator->curator_id = (int) $request->post('curator_id', 0);
+        $eventHasCurator->visible = (int) $request->post('visible', 1);
+        $eventHasCurator->position = (int) $request->post('position', 1);
         $eventHasCurator->save();
         $eventHasCurator->setRelation('event', $eventHasCurator->event()->first(['event_id', 'title']));
         $eventHasCurator->setRelation('curator', $eventHasCurator->curator()->selectRaw('curator_id, CONCAT(first_name, " ", last_name) AS curator_name')->first());

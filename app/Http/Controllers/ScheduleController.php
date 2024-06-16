@@ -218,7 +218,6 @@ class ScheduleController extends Controller
         page=1&itemsPerPage=10&search[title]=asd
         */
         $schedules = Schedule::query()
-//            ->where('title', 'like', '%' . $request->input('search.title', '') . '%')
             ->whereHas('event', function ($query) use ($request) {
                 $query->where('title', 'like', '%' . $request->input('search.title', '') . '%');
             })
@@ -258,7 +257,7 @@ class ScheduleController extends Controller
             if (!$schedule) {
                 return response()->json(['message' => 'Schedule not found'], 404);
             }
-            $schedule->event_id = $request->post('event_id', 0);
+            $schedule->event_id = (int) $request->post('event_id', 0);
             $schedule->save();
             $schedule->setRelation('event', $schedule->event()->first(['event_id', 'title']));
             return response()->json($schedule);
@@ -272,7 +271,7 @@ class ScheduleController extends Controller
             return response()->json(['message' => 'Missing required fields'], 400);
         }
         $schedule = new Schedule();
-        $schedule->event_id = $request->post('event_id', 0);
+        $schedule->event_id = (int) $request->post('event_id', 0);
         $schedule->save();
         $schedule->setRelation('event', $schedule->event()->first(['event_id', 'title']));
         return response()->json($schedule);

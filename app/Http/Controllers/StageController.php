@@ -51,7 +51,7 @@ class StageController extends Controller
             }
             $stage->title = $request->post('title', '');
             $stage->location = $request->post('location', '');
-            $stage->max_capacity = $request->post('max_capacity', 0);
+            $stage->max_capacity = (int) $request->post('max_capacity', 0);
 
             $stage->save();
             return response()->json($stage);
@@ -68,7 +68,7 @@ class StageController extends Controller
         $stage = new Stage();
         $stage->title = $request->post('title', '');
         $stage->location = $request->post('location', '');
-        $stage->max_capacity = $request->post('max_capacity', 0);
+        $stage->max_capacity = (int) $request->post('max_capacity', 0);
 
         $stage->save();
 

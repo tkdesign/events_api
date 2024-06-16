@@ -118,7 +118,7 @@ class UserController extends Controller
             $user->first_name = $request->post('first_name', '');
             $user->last_name = $request->post('last_name', '');
             $user->email = $request->post('email', '');
-            $user->role = $request->post('role', 1);
+            $user->role = (int) $request->post('role', 1);
 
             $user->save();
             return response()->json($user);
@@ -140,7 +140,7 @@ class UserController extends Controller
         $user->remember_token = Str::random(10);
         $user->first_name = $request->post('first_name', '');
         $user->last_name = $request->post('last_name', '');
-        $user->role = $request->post('role', 1);
+        $user->role = (int) $request->post('role', 1);
         $user->save();
 
         return response()->json($user);

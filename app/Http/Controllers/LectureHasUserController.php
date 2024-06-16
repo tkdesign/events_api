@@ -50,10 +50,10 @@ class LectureHasUserController extends Controller
             if (!$lectureHasUser) {
                 return response()->json(['status' => false, 'message' => 'Lecture/User Relation not found']);
             }
-            $lectureHasUser->lecture_id = $request->post('lecture_id', 0);
-            $lectureHasUser->user_id = $request->post('user_id', 0);
-            $lectureHasUser->visible = $request->post('visible', 1);
-            $lectureHasUser->position = $request->post('position', 1);
+            $lectureHasUser->lecture_id = (int) $request->post('lecture_id', 0);
+            $lectureHasUser->user_id = (int) $request->post('user_id', 0);
+            $lectureHasUser->visible = (int) $request->post('visible', 1);
+            $lectureHasUser->position = (int) $request->post('position', 1);
             $lectureHasUser->save();
             $lectureHasUser->setRelation('lecture', $lectureHasUser->lecture()->first(['lecture_id', 'title']));
             $lectureHasUser->setRelation('user', $lectureHasUser->user()->selectRaw('id, CONCAT(first_name, " ", last_name) AS user_name')->first());
@@ -68,10 +68,10 @@ class LectureHasUserController extends Controller
             return response()->json(['status' => false, 'message' => 'Missing required fields']);
         }
         $lectureHasUser = new LectureHasUser();
-        $lectureHasUser->lecture_id = $request->post('lecture_id', 0);
-        $lectureHasUser->user_id = $request->post('user_id', 0);
-        $lectureHasUser->visible = $request->post('visible', 1);
-        $lectureHasUser->position = $request->post('position', 1);
+        $lectureHasUser->lecture_id = (int) $request->post('lecture_id', 0);
+        $lectureHasUser->user_id = (int) $request->post('user_id', 0);
+        $lectureHasUser->visible = (int) $request->post('visible', 1);
+        $lectureHasUser->position = (int) $request->post('position', 1);
         $lectureHasUser->save();
         $lectureHasUser->setRelation('lecture', $lectureHasUser->lecture()->first(['lecture_id', 'title']));
         $lectureHasUser->setRelation('user', $lectureHasUser->user()->selectRaw('id, CONCAT(first_name, " ", last_name) AS user_name')->first());

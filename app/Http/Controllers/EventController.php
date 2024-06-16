@@ -64,7 +64,7 @@ class EventController extends Controller
             $event->title = $request->post('title', '');
             $event->desc_short = $request->post('desc_short', '');
             $event->desc = $request->post('desc', '');
-            $event->year = $request->post('year', 0);
+            $event->year = (int) $request->post('year', 0);
             $event->start_date = Carbon::parse($request->post('start_date', ''))->toDateString();
             $event->end_date = Carbon::parse($request->post('end_date', ''))->toDateString();
             if($request->hasFile('image')) {
@@ -110,7 +110,7 @@ class EventController extends Controller
         $event->title = $request->post('title', '');
         $event->desc_short = $request->post('desc_short', '');
         $event->desc = $request->post('desc', '');
-        $event->year = $request->post('year', now()->year);
+        $event->year = (int) $request->post('year', now()->year);
         $event->start_date = Carbon::parse($request->post('start_date', ''))->toDateString();
         $event->end_date = Carbon::parse($request->post('end_date', ''))->toDateString();
         if($request->hasFile('image')) {

@@ -45,7 +45,7 @@ class ImageController extends Controller
             if (!$image) {
                 return response()->json(['status' => false, 'message' => 'Image not found']);
             }
-            $image->gallery_id = $request->post('gallery_id', 0);
+            $image->gallery_id = (int) $request->post('gallery_id', 0);
             $image->title = $request->post('title', '');
             if($request->hasFile('image')) {
                 if($image->image) {
@@ -65,8 +65,8 @@ class ImageController extends Controller
                 $imageFile->move(public_path($images_folder), $imageName);
                 $image->thumbnail = "/$images_folder/".$imageName;
             }
-            $image->visible = $request->post('visible', 1);
-            $image->position = $request->post('position', 0);
+            $image->visible = (int) $request->post('visible', 1);
+            $image->position = (int) $request->post('position', 0);
             $image->save();
             $image->setRelation('gallery', $image->gallery()->first(['gallery_id', 'title']));
             return response()->json($image);
@@ -82,7 +82,7 @@ class ImageController extends Controller
         $images_folder = 'images/gallery';
 
         $image = new Image();
-        $image->gallery_id = $request->post('gallery_id', 0);
+        $image->gallery_id = (int) $request->post('gallery_id', 0);
         $image->title = $request->post('title', '');
         if($request->hasFile('image')) {
             $imageFile = $request->file('image');
@@ -96,8 +96,8 @@ class ImageController extends Controller
             $imageFile->move(public_path($images_folder), $imageName);
             $image->thumbnail = "/$images_folder/".$imageName;
         }
-        $image->visible = $request->post('visible', 1);
-        $image->position = $request->post('position', 0);
+        $image->visible = (int) $request->post('visible', 1);
+        $image->position = (int) $request->post('position', 0);
 
         $image->save();
         $image->setRelation('gallery', $image->gallery()->first(['gallery_id', 'title']));

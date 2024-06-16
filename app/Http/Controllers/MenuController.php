@@ -111,18 +111,17 @@ class MenuController extends Controller
             if (!$menu_item) {
                 return response()->json(['status' => false, 'message' => 'Menu item not found']);
             }
-            Log::info('menu_item: ' . json_encode($menu_item));
             $menu_item->name = $request->post('name', '');
             $menu_item->title = $request->post('title', '');
             $menu_item->page_title = $request->post('page_title', '');
             $menu_item->path = $request->post('path', '');
             $menu_item->component = $request->post('component', '');
-            $menu_item->visible = $request->post('visible', true);
-            $menu_item->position = $request->post('position', 1);
-            $menu_item->role = $request->post('role', -1);
-            $menu_item->is_article = $request->post('is_article', false);
-            $menu_item->is_top_menu_item = $request->post('is_top_menu_item', true);
-            $menu_item->is_bottom_menu_item = $request->post('is_bottom_menu_item', true);
+            $menu_item->visible = (int) $request->post('visible', true);
+            $menu_item->position = (int) $request->post('position', 1);
+            $menu_item->role = (int) $request->post('role', -1);
+            $menu_item->is_article = (int) $request->post('is_article', false);
+            $menu_item->is_top_menu_item = (int) $request->post('is_top_menu_item', true);
+            $menu_item->is_bottom_menu_item = (int) $request->post('is_bottom_menu_item', true);
 
             $menu_item->save();
             return response()->json($menu_item);
@@ -142,12 +141,12 @@ class MenuController extends Controller
         $menu_item->page_title = $request->post('page_title', '');
         $menu_item->path = $request->post('path', '');
         $menu_item->component = $request->post('component', '');
-        $menu_item->visible = $request->post('visible', 1);
-        $menu_item->position = $request->post('position', 1);
-        $menu_item->role = $request->post('role', -1);
-        $menu_item->is_article = $request->post('is_article', 0);
-        $menu_item->is_top_menu_item = $request->post('is_top_menu_item', 1);
-        $menu_item->is_bottom_menu_item = $request->post('is_bottom_menu_item', 1);
+        $menu_item->visible = (int) $request->post('visible', 1);
+        $menu_item->position = (int) $request->post('position', 1);
+        $menu_item->role = (int) $request->post('role', -1);
+        $menu_item->is_article = (int) $request->post('is_article', 0);
+        $menu_item->is_top_menu_item = (int) $request->post('is_top_menu_item', 1);
+        $menu_item->is_bottom_menu_item = (int) $request->post('is_bottom_menu_item', 1);
 
         $menu_item->save();
 

@@ -46,10 +46,10 @@ class ScheduleHasStageController extends Controller
             if (!$scheduleHasStage) {
                 return response()->json(['status' => false, 'message' => 'Schedule/Stage Relation not found']);
             }
-            $scheduleHasStage->schedule_id = $request->post('schedule_id', 0);
-            $scheduleHasStage->stage_id = $request->post('stage_id', 0);
-            $scheduleHasStage->visible = $request->post('visible', 1);
-            $scheduleHasStage->position = $request->post('position', 1);
+            $scheduleHasStage->schedule_id = (int) $request->post('schedule_id', 0);
+            $scheduleHasStage->stage_id = (int) $request->post('stage_id', 0);
+            $scheduleHasStage->visible = (int) $request->post('visible', 1);
+            $scheduleHasStage->position = (int) $request->post('position', 1);
             $scheduleHasStage->save();
             $scheduleHasStage->setRelation('stage', $scheduleHasStage->stage()->first(['stage_id', 'title']));
             return response()->json($scheduleHasStage);
@@ -63,10 +63,10 @@ class ScheduleHasStageController extends Controller
             return response()->json(['status' => false, 'message' => 'Missing required fields']);
         }
         $scheduleHasStage = new ScheduleHasStage();
-        $scheduleHasStage->schedule_id = $request->post('schedule_id', 0);
-        $scheduleHasStage->stage_id = $request->post('stage_id', 0);
-        $scheduleHasStage->visible = $request->post('visible', 1);
-        $scheduleHasStage->position = $request->post('position', 1);
+        $scheduleHasStage->schedule_id = (int) $request->post('schedule_id', 0);
+        $scheduleHasStage->stage_id = (int) $request->post('stage_id', 0);
+        $scheduleHasStage->visible = (int) $request->post('visible', 1);
+        $scheduleHasStage->position = (int) $request->post('position', 1);
         $scheduleHasStage->save();
         $scheduleHasStage->setRelation('stage', $scheduleHasStage->stage()->first(['stage_id', 'title']));
         return response()->json($scheduleHasStage);
