@@ -27,8 +27,8 @@ return [
 
     'exposed_headers' => [],
 
-    'supports_credentials' => false,
+    'max_age' => 0,
 
-    'max_age' => 3600
+    'supports_credentials' => true,
 
 ];
