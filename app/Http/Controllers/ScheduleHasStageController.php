@@ -14,13 +14,16 @@ class ScheduleHasStageController extends Controller
         page=1&itemsPerPage=10&search[stage_title]=asd
         */
         $schedulesHasStages = ScheduleHasStage::query()
-            ->where('schedule_id', 'like', '%' . $request->input('search.schedule_id', '') . '%')
+            ->whereHas('schedule', function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->input('search.schedule_title', '') . '%');
+            })
             ->whereHas('stage', function ($query) use ($request) {
                 $query->where('title', 'like', '%' . $request->input('search.stage_title', '') . '%');
             })
             ->orderBy($request->get('sortBy', 'id'), $request->get('sortOrder', 'asc'))
             ->paginate($request->get('itemsPerPage', 10), ['*'], 'page', $request->get('page', 1));
         foreach ($schedulesHasStages as &$item) {
+            $item->setRelation('schedule', $item->schedule()->first(['schedule_id', 'title']));
             $item->setRelation('stage', $item->stage()->first(['stage_id', 'title']));
         }
         return response()->json($schedulesHasStages);
@@ -32,6 +35,7 @@ class ScheduleHasStageController extends Controller
         if (!$scheduleHasStage) {
             return response()->json(['status' => false, 'message' => 'Schedule/Stage Relation not found']);
         }
+        $scheduleHasStage->setRelation('schedule', $scheduleHasStage->schedule()->first(['schedule_id', 'title']));
         $scheduleHasStage->setRelation('stage', $scheduleHasStage->stage()->first(['stage_id', 'title']));
         return response()->json($scheduleHasStage);
     }
@@ -51,6 +55,7 @@ class ScheduleHasStageController extends Controller
             $scheduleHasStage->visible = (int) $request->post('visible', 1);
             $scheduleHasStage->position = (int) $request->post('position', 1);
             $scheduleHasStage->save();
+            $scheduleHasStage->setRelation('schedule', $scheduleHasStage->schedule()->first(['schedule_id', 'title']));
             $scheduleHasStage->setRelation('stage', $scheduleHasStage->stage()->first(['stage_id', 'title']));
             return response()->json($scheduleHasStage);
         }
@@ -68,6 +73,7 @@ class ScheduleHasStageController extends Controller
         $scheduleHasStage->visible = (int) $request->post('visible', 1);
         $scheduleHasStage->position = (int) $request->post('position', 1);
         $scheduleHasStage->save();
+        $scheduleHasStage->setRelation('schedule', $scheduleHasStage->schedule()->first(['schedule_id', 'title']));
         $scheduleHasStage->setRelation('stage', $scheduleHasStage->stage()->first(['stage_id', 'title']));
         return response()->json($scheduleHasStage);
     }

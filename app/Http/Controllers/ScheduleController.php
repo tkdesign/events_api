@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\EventHasUser;
 use App\Models\Lecture;
-use App\Models\LectureHasUser;
 use App\Models\Schedule;
 use App\Models\Slot;
 use App\Models\Speaker;
@@ -233,7 +232,7 @@ class ScheduleController extends Controller
     {
         $schedules = Schedule::query()
             ->orderBy($request->get('sortBy', 'schedule_id'), $request->get('sortOrder', 'asc'))
-            ->get(['schedule_id']);
+            ->get(['schedule_id', 'title']);
         return response()->json($schedules);
     }
 

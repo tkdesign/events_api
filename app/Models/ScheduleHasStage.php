@@ -24,12 +24,15 @@ class ScheduleHasStage extends Model
     ];
 
     protected $casts = [
-//        'visible' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
     public function stage() {
         return $this->hasOne(Stage::class, 'stage_id', 'stage_id');
+    }
+
+    public function schedule() {
+        return $this->hasOne(Schedule::class, 'schedule_id', 'schedule_id');
     }
 }

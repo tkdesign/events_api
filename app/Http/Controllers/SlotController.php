@@ -15,7 +15,9 @@ class SlotController extends Controller
         page=1&itemsPerPage=10&search[lecture_title]=asd&search[stage_title]=asdfdfsd&search[schedule_id]=2
         */
         $slots = Slot::query()
-            ->where('schedule_id', 'like', '%' . $request->input('search.schedule_id', '') . '%')
+            ->whereHas('schedule', function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->input('search.schedule_title', '') . '%');
+            })
             ->whereHas('lecture', function ($query) use ($request) {
                 $query->where('title', 'like', '%' . $request->input('search.lecture_title', '') . '%');
             })
@@ -27,7 +29,7 @@ class SlotController extends Controller
         foreach ($slots as &$item) {
             $item->setRelation('lecture', $item->lecture()->first(['lecture_id', 'title']));
             $item->setRelation('stage', $item->stage()->first(['stage_id', 'title']));
-            $item->setRelation('schedule', $item->schedule()->first(['schedule_id']));
+            $item->setRelation('schedule', $item->schedule()->first(['schedule_id', 'title']));
         }
         return response()->json($slots);
     }
@@ -40,7 +42,7 @@ class SlotController extends Controller
         }
         $slot->setRelation('lecture', $slot->lecture()->first(['lecture_id', 'title']));
         $slot->setRelation('stage', $slot->stage()->first(['stage_id', 'title']));
-        $slot->setRelation('schedule', $slot->schedule()->first(['schedule_id']));
+        $slot->setRelation('schedule', $slot->schedule()->first(['schedule_id', 'title']));
 
         return response()->json($slot);
     }
@@ -64,7 +66,7 @@ class SlotController extends Controller
             $slot->save();
             $slot->setRelation('lecture', $slot->lecture()->first(['lecture_id', 'title']));
             $slot->setRelation('stage', $slot->stage()->first(['stage_id', 'title']));
-            $slot->setRelation('schedule', $slot->schedule()->first(['schedule_id']));
+            $slot->setRelation('schedule', $slot->schedule()->first(['schedule_id', 'title']));
             return response()->json($slot);
         }
         return response()->json(['status' => false, 'message' => 'Slot not found']);
@@ -85,7 +87,7 @@ class SlotController extends Controller
         $slot->save();
         $slot->setRelation('lecture', $slot->lecture()->first(['lecture_id', 'title']));
         $slot->setRelation('stage', $slot->stage()->first(['stage_id', 'title']));
-        $slot->setRelation('schedule', $slot->schedule()->first(['schedule_id']));
+        $slot->setRelation('schedule', $slot->schedule()->first(['schedule_id', 'title']));
         return response()->json($slot);
     }
 
