@@ -2,13 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Event;
-use App\Models\EventHasSponsor;
-use App\Models\Schedule;
-use App\Models\ScheduleHasStage;
 use App\Models\Speaker;
-use App\Models\Sponsor;
-use App\Models\Stage;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 

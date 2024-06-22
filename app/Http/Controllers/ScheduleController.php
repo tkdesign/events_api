@@ -257,6 +257,7 @@ class ScheduleController extends Controller
             if (!$schedule) {
                 return response()->json(['message' => 'Schedule not found'], 404);
             }
+            $schedule->title = $request->post('title', '');
             $schedule->event_id = (int) $request->post('event_id', 0);
             $schedule->save();
             $schedule->setRelation('event', $schedule->event()->first(['event_id', 'title']));
@@ -271,6 +272,7 @@ class ScheduleController extends Controller
             return response()->json(['message' => 'Missing required fields'], 400);
         }
         $schedule = new Schedule();
+        $schedule->title = $request->post('title', '');
         $schedule->event_id = (int) $request->post('event_id', 0);
         $schedule->save();
         $schedule->setRelation('event', $schedule->event()->first(['event_id', 'title']));

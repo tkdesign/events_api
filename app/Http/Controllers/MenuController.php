@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminMenuItem;
+use App\Models\Event;
 use App\Models\MenuItem;
 use App\Models\Speaker;
 use Illuminate\Database\Events\QueryExecuted;
@@ -19,8 +21,6 @@ class MenuController extends Controller
 
         $roles = $this->getUserRoles();
 
-//        Log::info('roles: ' . json_encode($roles));
-
         $topMenu = MenuItem::query()
             ->select(array('name', 'title', 'page_title', 'path as alias', 'component', 'visible', 'position', 'role', 'is_article', 'is_top_menu_item', 'is_bottom_menu_item'))
             ->whereIn('role', $roles)
@@ -35,6 +35,7 @@ class MenuController extends Controller
             ->orderBy('position')
             ->get()
             ->toArray();
+        $event = Event::where('is_current', true)->first();
 
 
         $main_menu = [];
@@ -68,6 +69,21 @@ class MenuController extends Controller
             }
         }
         $menu['bottom_menu'] = array_merge($bottom_submenu_main, $bottom_submenu_topics);
+
+        if (auth()->check() && auth()->user()->role === 2) {
+            $admin_menu = AdminMenuItem::query()
+                ->where('visible', true)
+                ->orderBy('position')
+                ->get();
+            $menu['admin'] = $admin_menu->toArray();
+        }
+
+        if (!empty($event)) {
+            $menu['year'] = $event->year;
+        } else {
+            $menu['year'] = date('Y');
+        }
+
         return response()->json($menu);
     }
 

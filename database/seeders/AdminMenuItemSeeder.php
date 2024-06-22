@@ -239,6 +239,17 @@ class AdminMenuItemSeeder extends Seeder
                 "visible" => true,
                 "position" => 21,
             ],
+            [
+                "name" => "admin_banners",
+                "icon_class" => "mdi-note-multiple",
+                "title" => "Banners",
+                "page_title" => "Banners",
+                "path" => "/admin/banners",
+                "router_link" => "banners",
+                "component" => "AdminBannersView",
+                "visible" => true,
+                "position" => 22,
+            ],
         ];
 
         AdminMenuItem::truncate();

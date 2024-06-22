@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Article;
 use App\Models\MenuItem;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 
@@ -76,7 +75,7 @@ class MenuItemSeeder extends Seeder
                 "name" => "gallery",
                 "title" => "Gallery",
                 "page_title" => "Gallery",
-                "path" => "/gallery",
+                "path" => "/gallery/:year",
                 "component" => "GalleryView",
                 "visible" => true,
                 "position" => 5,
@@ -84,19 +83,6 @@ class MenuItemSeeder extends Seeder
                 "is_article" => false,
                 'is_top_menu_item' => true,
                 'is_bottom_menu_item' => true,
-            ],
-            [
-                "name" => "gallery_year",
-                "title" => "Gallery",
-                "page_title" => "Gallery by year",
-                "path" => "/gallery/:year",
-                "component" => "GalleryView",
-                "visible" => false,
-                "position" => 6,
-                "role" => -1,
-                "is_article" => false,
-                'is_top_menu_item' => true,
-                'is_bottom_menu_item' => false,
             ],
             [
                 "name" => "contacts",

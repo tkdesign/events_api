@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('events_has_sponsors', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('event_id')->constrained('events', 'event_id');
-            $table->foreignId('sponsor_id')->constrained('sponsors', 'sponsor_id');
+        Schema::create('banners', function (Blueprint $table) {
+            $table->id('banner_id');
+            $table->string('title', 255);
+            $table->text('content')->nullable();
+            $table->string('image')->nullable();
+            $table->string('thumbnail')->nullable();
             $table->tinyInteger('visible')->nullable()->default(1);
             $table->integer('position')->nullable()->default(1);
+            $table->string('color', 45)->nullable();
+            $table->string('text_color', 45)->nullable();
+            $table->foreignId('event_id')->constrained('events', 'event_id')->onDelete('cascade');
             $table->timestamps();
             $table->index('event_id');
-            $table->index('sponsor_id');
-            $table->index('position');
             $table->index('created_at');
         });
     }
@@ -30,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('events_has_sponsors');
+        Schema::dropIfExists('banners');
     }
 };
