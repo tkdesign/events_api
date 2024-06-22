@@ -241,7 +241,7 @@ class AdminMenuItemSeeder extends Seeder
             ],
             [
                 "name" => "admin_banners",
-                "icon_class" => "mdi-note-multiple",
+                "icon_class" => "mdi-view-gallery",
                 "title" => "Banners",
                 "page_title" => "Banners",
                 "path" => "/admin/banners",
