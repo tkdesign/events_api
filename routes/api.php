@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminMenuItemController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventHasCuratorController;
@@ -53,6 +54,7 @@ Route::get('/get-testimonials', [TestimonialController::class, 'getCurrentEventT
 Route::get('/get-galleries', [GalleryController::class, 'getMenuGalleries']);
 Route::get('/get-images/{id}', [GalleryController::class, 'getImagesByGalleryId']);
 Route::get('/get-schedule', [ScheduleController::class, 'getCurrentEventSchedule']);
+Route::get('/get-banners', [BannerController::class, 'getCurrentEventBanners']);
 
 Route::group(['middleware' => 'member'], function () {
     Route::get('/get-subscribe', [EventHasUserController::class, 'getSubscribe']);
@@ -113,6 +115,12 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/admin/create-article', [ArticleController::class, 'createArticle']);
     Route::put('/admin/update-article', [ArticleController::class, 'updateArticle']);
     Route::delete('/admin/delete-article/{id}', [ArticleController::class, 'deleteArticle']);
+
+    Route::get('/admin/get-banners', [BannerController::class, 'getBannersAdmin']);
+    Route::get('/admin/get-banner/{id}', [BannerController::class, 'getBannerAdmin']);
+    Route::post('/admin/create-banner', [BannerController::class, 'createBanner']);
+    Route::put('/admin/update-banner', [BannerController::class, 'updateBanner']);
+    Route::delete('/admin/delete-banner/{id}', [BannerController::class, 'deleteBanner']);
 
     Route::get('/admin/get-speakers', [SpeakerController::class, 'getSpeakersAdmin']);
     Route::get('/admin/get-speakers-all', [SpeakerController::class, 'getSpeakersAllAdmin']);

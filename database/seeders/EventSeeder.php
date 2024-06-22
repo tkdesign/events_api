@@ -16,9 +16,9 @@ class EventSeeder extends Seeder
         //
         $events = [
             [
-                "title" => "Web Dev 2022",
+                "title" => "nConnect 2022",
                 "desc_short" => "The future of web development",
-                "desc" => "Web Dev 2022 is a conference that will focus on the future of web development. We will have speakers from all over the world talking about the latest technologies and trends in web development.",
+                "desc" => "nConnect 2022 is a conference that will focus on the future of web development. We will have speakers from all over the world talking about the latest technologies and trends in web development.",
                 "year" => 2022,
                 "start_date" => "2022-07-01",
                 "end_date" => "2022-07-02",
@@ -30,9 +30,9 @@ class EventSeeder extends Seeder
                 "address" => "Trieda A.Hlinku, 1, 949 01 Nitra, Slovakia"
             ],
             [
-                "title" => "Web Dev 2023",
+                "title" => "nConnect 2023",
                 "desc_short" => "The future of web development",
-                "desc" => "Web Dev 2023 is a conference that will focus on the future of web development. We will have speakers from all over the world talking about the latest technologies and trends in web development.",
+                "desc" => "nConnect 2023 is a conference that will focus on the future of web development. We will have speakers from all over the world talking about the latest technologies and trends in web development.",
                 "year" => 2023,
                 "start_date" => "2023-07-01",
                 "end_date" => "2023-07-02",
@@ -44,9 +44,9 @@ class EventSeeder extends Seeder
                 "address" => "Trieda A.Hlinku, 1, 949 01 Nitra, Slovakia"
             ],
             [
-                "title" => "Web Dev 2024",
+                "title" => "nConnect 2024",
                 "desc_short" => "The future of web development",
-                "desc" => "Web Dev 2024 is a conference that will focus on the future of web development. We will have speakers from all over the world talking about the latest technologies and trends in web development.",
+                "desc" => "nConnect 2024 is a conference that will focus on the future of web development. We will have speakers from all over the world talking about the latest technologies and trends in web development.",
                 "year" => 2024,
                 "start_date" => "2024-07-01",
                 "end_date" => "2024-07-02",

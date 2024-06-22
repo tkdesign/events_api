@@ -18,7 +18,6 @@ class Controller extends BaseController
     {
         $roles = [-1];
         if (Auth()->check()) {
-            Log::info('roles: ' . json_encode($roles));
             switch (auth()->user()->role) {
                 case 1:
                     $roles = array_merge($roles, [1]);

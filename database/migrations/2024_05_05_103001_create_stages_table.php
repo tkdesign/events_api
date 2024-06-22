@@ -4,23 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/*
--- -----------------------------------------------------
--- Table `events_backend_db`.`stages`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `events_backend_db`.`stages` (
-  `stage_id` INT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(255) NOT NULL,
-  `location` VARCHAR(255) NULL,
-  `max_capacity` INT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT NOW(),
-  `updated_at` TIMESTAMP NULL,
-  PRIMARY KEY (`stage_id`),
-  INDEX `stages_title_idx` (`title` ASC) VISIBLE,
-  INDEX `stages_created_at_idx` (`created_at` ASC) VISIBLE)
-ENGINE = InnoDB;
-*/
-
 return new class extends Migration
 {
     /**

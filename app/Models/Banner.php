@@ -5,17 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ScheduleHasStage extends Model
+class Banner extends Model
 {
     use HasFactory;
 
-    protected $table = 'schedules_has_stages';
+    protected $table = 'banners';
+
+    protected $primaryKey = 'banner_id';
 
     protected $fillable = [
-        'schedule_id',
-        'stage_id',
-        'visible',
-        'position',
+        'title',
+        'content',
+        'image',
+        'thumbnail',
+        'color',
+        'text_color',
+        'event_id',
     ];
 
     protected $hidden = [
@@ -24,12 +29,11 @@ class ScheduleHasStage extends Model
     ];
 
     protected $casts = [
-//        'visible' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
 
-    public function stage() {
-        return $this->hasOne(Stage::class, 'stage_id', 'stage_id');
+    public function event() {
+        return $this->hasOne(Event::class, 'event_id', 'event_id');
     }
 }

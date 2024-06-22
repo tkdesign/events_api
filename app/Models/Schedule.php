@@ -4,25 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-/*
--- -----------------------------------------------------
--- Table `events_backend_db`.`schedules`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `events_backend_db`.`schedules` (
-  `schedule_id` INT NOT NULL AUTO_INCREMENT,
-  `event_id` INT NOT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT NOW(),
-  `updated_at` TIMESTAMP NULL,
-  PRIMARY KEY (`schedule_id`),
-  INDEX `fk_schedules_event_id_idx` (`event_id` ASC) VISIBLE,
-  INDEX `schedules_created_at_idx` (`created_at` ASC) INVISIBLE,
-  CONSTRAINT `fk_schedules_event_id`
-    FOREIGN KEY (`event_id`)
-    REFERENCES `events_backend_db`.`events` (`event_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-*/
 
 class Schedule extends Model
 {
@@ -34,6 +15,7 @@ class Schedule extends Model
 
     protected $fillable = [
         'schedule_id',
+        'title',
         'event_id',
     ];
 

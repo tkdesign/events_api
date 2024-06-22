@@ -4,43 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/*
--- -----------------------------------------------------
--- Table `events_backend_db`.`slots`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `events_backend_db`.`slots` (
-  `slot_id` INT NOT NULL AUTO_INCREMENT,
-  `schedule_id` INT NOT NULL,
-  `stage_id` INT NOT NULL,
-  `lecture_id` INT NULL,
-  `day` DATE NOT NULL,
-  `start_time` TIME NOT NULL,
-  `end_time` TIME NOT NULL,
-  `created_at` TIMESTAMP NULL DEFAULT NOW(),
-  `updated_at` TIMESTAMP NULL,
-  PRIMARY KEY (`slot_id`),
-  INDEX `fk_slots_stage_id_idx` (`stage_id` ASC) VISIBLE,
-  INDEX `fk_slots_lecture_id_idx` (`lecture_id` ASC) VISIBLE,
-  INDEX `fk_slots_schedule_id_idx` (`schedule_id` ASC) VISIBLE,
-  CONSTRAINT `fk_slots_stage_id`
-    FOREIGN KEY (`stage_id`)
-    REFERENCES `events_backend_db`.`stages` (`stage_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_slots_lecture_id`
-    FOREIGN KEY (`lecture_id`)
-    REFERENCES `events_backend_db`.`lectures` (`lecture_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_slots_schedule_id`
-    FOREIGN KEY (`schedule_id`)
-    REFERENCES `events_backend_db`.`schedules` (`schedule_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-COMMENT = '	';
-*/
-
 return new class extends Migration
 {
     /**

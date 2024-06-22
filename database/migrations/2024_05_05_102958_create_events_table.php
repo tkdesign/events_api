@@ -4,32 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/*
--- -----------------------------------------------------
--- Table `events_backend_db`.`events`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `events_backend_db`.`events` (
-  `event_id` INT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(255) NOT NULL,
-  `desc_short` VARCHAR(255) NULL,
-  `desc` TEXT NULL,
-  `year` INT NOT NULL,
-  `start_date` DATE NULL,
-  `end_date` DATE NULL,
-  `image` VARCHAR(255) NULL,
-  `thumbnail` VARCHAR(255) NULL,
-  `is_current` TINYINT NULL,
-  `location` VARCHAR(255) NULL,
-  `place` VARCHAR(255) NULL,
-  `address` VARCHAR(255) NULL,
-  `created_at` TIMESTAMP NULL DEFAULT NOW(),
-  `updated_at` TIMESTAMP NULL,
-  PRIMARY KEY (`event_id`),
-  INDEX `events_created_at_idx` (`created_at` ASC) VISIBLE,
-  UNIQUE INDEX `events_year_idx` (`year` ASC) VISIBLE)
-ENGINE = InnoDB;
-*/
-
 return new class extends Migration
 {
     /**

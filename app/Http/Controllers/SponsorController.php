@@ -200,7 +200,6 @@ class SponsorController extends Controller
 
     public function createSponsor(Request $request): \Illuminate\Http\JsonResponse
     {
-        Log::info('updateSponsor: ' . $request->input('name'));
         if (!$request->has('name') || !$request->has('email')) {
             return response()->json(['message' => 'Missing required fields'], 400);
         }

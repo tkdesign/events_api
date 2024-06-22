@@ -1,35 +1,6 @@
 <?php
 
 namespace App\Models;
-/*
--- -----------------------------------------------------
--- Table `events_backend_db`.`lectures_has_users`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `events_backend_db`.`lectures_has_users` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `lecture_id` INT NOT NULL,
-  `user_id` INT NOT NULL,
-  `visible` TINYINT NULL DEFAULT 1,
-  `position` INT NULL DEFAULT 1,
-  `created_at` TIMESTAMP NULL DEFAULT NOW(),
-  `updated_at` TIMESTAMP NULL,
-  INDEX `fk_lectures_has_users_user_id_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_lectures_has_users_lecture_id_idx` (`lecture_id` ASC) VISIBLE,
-  INDEX `lectures_has_users_position_idx` (`position` ASC) VISIBLE,
-  INDEX `lectures_has_users_created_at_idx` (`position` ASC) VISIBLE,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_lectures_has_users_lecture_id`
-    FOREIGN KEY (`lecture_id`)
-    REFERENCES `events_backend_db`.`lectures` (`lecture_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_lectures_has_users_user_id`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `events_backend_db`.`users` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-*/
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
