@@ -64,6 +64,12 @@ class EventController extends Controller
             $event->title = $request->post('title', '');
             $event->desc_short = $request->post('desc_short', '');
             $event->desc = $request->post('desc', '');
+            $event->about_title = $request->post('about_title', '');
+            $event->about_text = $request->post('about_text', '');
+            $event->left_block_title = $request->post('left_block_title', '');
+            $event->left_block_text = $request->post('left_block_text', '');
+            $event->right_block_title = $request->post('right_block_title', '');
+            $event->right_block_text = $request->post('right_block_text', '');
             $event->year = (int) $request->post('year', 0);
             $event->start_date = Carbon::parse($request->post('start_date', ''))->toDateString();
             $event->end_date = Carbon::parse($request->post('end_date', ''))->toDateString();
@@ -84,6 +90,15 @@ class EventController extends Controller
                 $thumbnailName = time().'.'.$thumbnail->getClientOriginalExtension();
                 $thumbnail->move(public_path($images_folder."/thumbnails"), $thumbnailName);
                 $event->thumbnail = "/$images_folder/thumbnails/".$thumbnailName;
+            }
+            if($request->hasFile('map')) {
+                if($event->map) {
+                    Storage::delete(public_path($event->map));
+                }
+                $map = $request->file('map');
+                $mapName = time().'.'.$map->getClientOriginalExtension();
+                $map->move(public_path($images_folder."/maps"), $mapName);
+                $event->map = "/$images_folder/maps/".$mapName;
             }
             if ($request->input('is_current') == "false") {
                 $event->is_current = false;
@@ -110,6 +125,12 @@ class EventController extends Controller
         $event->title = $request->post('title', '');
         $event->desc_short = $request->post('desc_short', '');
         $event->desc = $request->post('desc', '');
+        $event->about_title = $request->post('about_title', '');
+        $event->about_text = $request->post('about_text', '');
+        $event->left_block_title = $request->post('left_block_title', '');
+        $event->left_block_text = $request->post('left_block_text', '');
+        $event->right_block_title = $request->post('right_block_title', '');
+        $event->right_block_text = $request->post('right_block_text', '');
         $event->year = (int) $request->post('year', now()->year);
         $event->start_date = Carbon::parse($request->post('start_date', ''))->toDateString();
         $event->end_date = Carbon::parse($request->post('end_date', ''))->toDateString();
@@ -124,6 +145,15 @@ class EventController extends Controller
             $thumbnailName = time().'.'.$thumbnail->getClientOriginalExtension();
             $thumbnail->move(public_path("$images_folder/thumbnails"), $thumbnailName);
             $event->thumbnail = "/$images_folder/thumbnails/".$thumbnailName;
+        }
+        if($request->hasFile('map')) {
+            if($event->map) {
+                Storage::delete(public_path($event->map));
+            }
+            $map = $request->file('map');
+            $mapName = time().'.'.$map->getClientOriginalExtension();
+            $map->move(public_path($images_folder."/maps"), $mapName);
+            $event->map = "/$images_folder/maps/".$mapName;
         }
         if ($request->input('is_current') == "false") {
             $event->is_current = false;

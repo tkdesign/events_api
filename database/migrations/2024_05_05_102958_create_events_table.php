@@ -16,11 +16,18 @@ return new class extends Migration
             $table->string('title', 255);
             $table->string('desc_short', 255)->nullable();
             $table->text('desc')->nullable();
+            $table->string('about_title', 255);
+            $table->text('about_text')->nullable();
+            $table->string('left_block_title', 255);
+            $table->string('left_block_text', 255);
+            $table->string('right_block_title', 255);
+            $table->string('right_block_text', 255);
             $table->integer('year')->unique();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->string('image', 255)->nullable();
             $table->string('thumbnail', 255)->nullable();
+            $table->string('map', 255)->nullable();
             $table->tinyInteger('is_current')->nullable();
             $table->string('location', 255)->nullable();
             $table->string('place', 255)->nullable();
