@@ -127,6 +127,8 @@ class EventHasUserController extends Controller
                 $eventData = $eventHasUser->event()->first();
                 try {
                     Mail::to($userData->email)->send(new EventSubscribe($userData, config('constants.MAIL_FROM_ADDRESS'), $eventData));
+                } catch (\Swift_TransportException $e) {
+                    Log::error('Mail transport exception: ' . $e->getMessage());
                 } catch (\Exception $e) {
                     Log::error($e->getMessage());
                 }
