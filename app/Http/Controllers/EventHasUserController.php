@@ -125,7 +125,12 @@ class EventHasUserController extends Controller
                 $eventHasUser->save();
                 $userData = $request->user();
                 $eventData = $eventHasUser->event()->first();
-                Mail::to($userData->email)->send(new EventSubscribe($userData, config('constants.MAIL_FROM_ADDRESS'), $eventData));
+                try {
+                    Mail::to($userData->email)->send(new EventSubscribe($userData, config('constants.MAIL_FROM_ADDRESS'), $eventData));
+                } catch (\Exception $e) {
+                    Log::error($e->getMessage());
+                    return response()->json(['status' => false, 'message' => 'Error sending email']);
+                }
             }
         } else {
             if ($eventHasUser) {
@@ -142,7 +147,13 @@ class EventHasUserController extends Controller
                 }
 
                 $userData = $request->user();
-                Mail::to($userData->email)->send(new EventUnsubscribe($userData, config('constants.MAIL_FROM_ADDRESS'), $eventData));
+
+                try {
+                    Mail::to($userData->email)->send(new EventUnsubscribe($userData, config('constants.MAIL_FROM_ADDRESS'), $eventData));
+                } catch (\Exception $e) {
+                    Log::error($e->getMessage());
+                    return response()->json(['status' => false, 'message' => 'Error sending email']);
+                }
             }
         }
         return response()->json(['status' => true]);
