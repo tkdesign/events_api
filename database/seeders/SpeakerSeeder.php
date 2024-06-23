@@ -28,8 +28,8 @@ class SpeakerSeeder extends Seeder
                 "facebook" => "https://www.facebook.com",
                 "instagram" => "https://www.instagram.com",
                 "linkedin" => "https://www.linkedin.com",
-                "image" => "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-                "thumbnail" => "https://cdn.vuetifyjs.com/images/lists/4.jpg"
+                "image" => "/images/speakers/1719101245.jpg",
+                "thumbnail" => "/images/speakers/1719101245.jpg"
             ],
             [
                 "titul" => "Mgr.",
@@ -44,8 +44,8 @@ class SpeakerSeeder extends Seeder
                 "facebook" => "https://www.facebook.com",
                 "instagram" => "https://www.instagram.com",
                 "linkedin" => "https://www.linkedin.com",
-                "image" => "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-                "thumbnail" => "https://cdn.vuetifyjs.com/images/lists/1.jpg"
+                "image" => "/images/speakers/1719101144.jpg",
+                "thumbnail" => "/images/speakers/1719101144.jpg"
             ],
             [
                 "titul" => "Bc.",
@@ -60,8 +60,8 @@ class SpeakerSeeder extends Seeder
                 "facebook" => "https://www.facebook.com",
                 "instagram" => "https://www.instagram.com",
                 "linkedin" => "https://www.linkedin.com",
-                "image" => "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-                "thumbnail" => "https://cdn.vuetifyjs.com/images/lists/2.jpg"
+                "image" => "/images/speakers/1719101200.jpg",
+                "thumbnail" => "/images/speakers/1719101200.jpg"
             ],
             [
                 "titul" => "Ing.",
@@ -76,8 +76,8 @@ class SpeakerSeeder extends Seeder
                 "facebook" => "https://www.facebook.com",
                 "instagram" => "https://www.instagram.com",
                 "linkedin" => "https://www.linkedin.com",
-                "image" => "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-                "thumbnail" => "https://cdn.vuetifyjs.com/images/lists/3.jpg"
+                "image" => "/images/speakers/1719101115.jpg",
+                "thumbnail" => "/images/speakers/1719101115.jpg"
             ],
             [
                 "titul" => "Ing.",
@@ -92,8 +92,8 @@ class SpeakerSeeder extends Seeder
                 "facebook" => "https://www.facebook.com",
                 "instagram" => "https://www.instagram.com",
                 "linkedin" => "https://www.linkedin.com",
-                "image" => "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-                "thumbnail" => "https://cdn.vuetifyjs.com/images/lists/4.jpg"
+                "image" => "/images/speakers/1719101054.jpg",
+                "thumbnail" => "/images/speakers/1719101054.jpg"
             ],
             [
                 "titul" => "Ing.",
@@ -108,8 +108,8 @@ class SpeakerSeeder extends Seeder
                 "facebook" => "https://www.facebook.com",
                 "instagram" => "https://www.instagram.com",
                 "linkedin" => "https://www.linkedin.com",
-                "image" => "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-                "thumbnail" => "https://cdn.vuetifyjs.com/images/lists/3.jpg"
+                "image" => "/images/speakers/1719101079.jpg",
+                "thumbnail" => "/images/speakers/1719101079.jpg"
             ]
         ];
 

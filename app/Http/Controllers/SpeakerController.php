@@ -14,6 +14,7 @@ class SpeakerController extends Controller
     {
         $speakers = Speaker::query()
             ->select('speakers.*')
+            ->distinct()
             ->join('lectures_has_speakers', 'speakers.speaker_id', '=', 'lectures_has_speakers.speaker_id')
             ->join('lectures', 'lectures.lecture_id', '=', 'lectures_has_speakers.lecture_id')
             ->join('slots', 'slots.lecture_id', '=', 'lectures.lecture_id')

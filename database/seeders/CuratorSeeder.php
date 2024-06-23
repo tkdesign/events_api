@@ -25,7 +25,7 @@ class CuratorSeeder extends Seeder
                 "occupation" => "Organizer",
                 "phone" => "+421 596 355 32",
                 "email" => "pavel_kollar@ukf.sk",
-                "photo_url" => "https://cdn.vuetifyjs.com/images/lists/1.jpg"
+                "photo_url" => "/images/curators/1719102063.jpg"
             ],
             [
                 "titul" => "Ing.",
@@ -35,7 +35,7 @@ class CuratorSeeder extends Seeder
                 "occupation" => "Planer",
                 "phone" => "+421 596 355 32",
                 "email" => "ingrid_kollar@ukf.sk",
-                "photo_url" => "https://cdn.vuetifyjs.com/images/lists/4.jpg"
+                "photo_url" => "/images/curators/1719102072.jpg"
             ]
         ];
 
