@@ -100,15 +100,22 @@ class EventController extends Controller
                 $map->move(public_path($images_folder."/maps"), $mapName);
                 $event->map = "/$images_folder/maps/".$mapName;
             }
-            if ($request->input('is_current') == "false") {
-                $event->is_current = false;
-            } else {
-                $event->is_current = !!$request->input('is_current', false);
+
+            $is_current_prev = $event->is_current;
+            $is_current_new = $request->input('is_current', false);
+            if ($is_current_new && !$is_current_prev) {
+                $event->is_current = !!$is_current_new;
             }
+
             $event->location = $request->post('location', '');
             $event->place = $request->post('place', '');
             $event->address = $request->post('address', '');
             $event->save();
+
+            if ($is_current_new && !$is_current_prev) {
+                Event::where('event_id', '!=', $event->event_id)->where('is_current', 1)->update(['is_current' => 0]);
+            }
+
             return response()->json($event);
         }
         return response()->json(['status' => false, 'message' => 'Event not found']);
